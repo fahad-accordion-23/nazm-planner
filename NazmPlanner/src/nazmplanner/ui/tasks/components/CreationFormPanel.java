@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Objects;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -75,6 +77,11 @@ public class CreationFormPanel extends CardPanel
         {
             String title = titleField.getText();
 
+            if (Objects.isNull(title) || title.trim().isBlank())
+            {
+                return;
+            }
+            
             LocalDateTime dueDate = LocalDateTime.ofInstant(
                 ((Date) dateSpinner.getValue()).toInstant(),
                 ZoneId.systemDefault()

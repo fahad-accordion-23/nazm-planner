@@ -26,6 +26,7 @@ public class PrimaryPanel extends JPanel
     private TaskCardListPanel taskCardListPanel;
     private JScrollPane taskCardListScrollPane;
     private CreationFormPanel creationFormPanel;
+    private DetailPanel detailPanel;    
     
     public PrimaryPanel(TasksMediator tasksMediator)
     {
@@ -42,6 +43,7 @@ public class PrimaryPanel extends JPanel
         taskCardListPanel = new TaskCardListPanel(tasksMediator);
         taskCardListScrollPane = new JScrollPane(taskCardListPanel);
         creationFormPanel = new CreationFormPanel(tasksMediator);
+        detailPanel = new DetailPanel(tasksMediator);
     }
     
     private void initStyling()
@@ -52,23 +54,28 @@ public class PrimaryPanel extends JPanel
     private void initLayout()
     {
         super.setLayout(new GridBagLayout());
-        
+                
         super.add(headerPanel, 
-                  new GBC(0, 0, 1, 1)
+                  new GBC(0, 0, 2, 1)
                   .setWeight(1.00, 0.00)
                   .setAnchor(GridBagConstraints.NORTH)
                   .setFill(GridBagConstraints.HORIZONTAL));
-        
+                
         super.add(taskCardListScrollPane,
                   new GBC(0, 1, 1, 1)
-                  .setWeight(1.00, 1.00)
+                  .setWeight(0.70, 1.00)
                   .setFill(GridBagConstraints.BOTH));
-        
+
+        super.add(detailPanel,
+                  new GBC(1, 1, 1, 2)
+                  .setWeight(0.30, 1.00)
+                  .setFill(GridBagConstraints.BOTH));
+                
         super.add(creationFormPanel,
                   new GBC(0, 2, 1, 1)
                   .setWeight(1.00, 0.00)
                   .setAnchor(GridBagConstraints.SOUTH)
                   .setFill(GridBagConstraints.HORIZONTAL));
     }
-        
+    
 }
