@@ -53,4 +53,35 @@ public class TaskSystem
         return Collections.unmodifiableList(taskRepository.findAll());
     }
     
+    public void markTaskCompleted(UUID id)
+    {
+        Task task = taskRepository.findById(id);
+        
+        if (Objects.isNull(task))
+        {
+            throw new IllegalArgumentException("Task with ID " + id + " not found!");        
+        }
+        
+        task.markCompleted();
+        taskRepository.save(task);        
+    }
+    
+    public void markTaskTodo(UUID id)
+    {
+        Task task = taskRepository.findById(id);
+        
+        if (Objects.isNull(task))
+        {
+            throw new IllegalArgumentException("Task with ID " + id + "not found!");
+        }
+        
+        task.markTodo();
+        taskRepository.save(task);
+    }
+    
+    public void deleteTask(UUID id)
+    {
+        taskRepository.delete(id);
+    }
+    
 }

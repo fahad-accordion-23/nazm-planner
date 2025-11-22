@@ -3,9 +3,12 @@ package nazmplanner.ui.tasks;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.ui.tasks.contracts.TaskCreatorInterface;
+import nazmplanner.ui.tasks.contracts.TaskDeleterInterface;
+import nazmplanner.ui.tasks.contracts.TaskMarkerInterface;
 import nazmplanner.ui.tasks.contracts.TasksUpdaterInterface;
 
 /**
@@ -18,8 +21,11 @@ import nazmplanner.ui.tasks.contracts.TasksUpdaterInterface;
  */
 public class TasksMediator
 {
+    
     private TaskCreatorInterface addTaskHandler;
     private TasksUpdaterInterface updateTasksHandler;
+    private TaskMarkerInterface markTaskHandler;
+    private TaskDeleterInterface deleteTaskHandler;
     
     public void requestAddTask(String title, String description, LocalDateTime dueDate)
     {
@@ -36,19 +42,54 @@ public class TasksMediator
         updateTasksHandler.updateTasks(tasks);
     }
     
-    public void setOnAddTaskHandler(TaskCreatorInterface taskAdder)
+    public void requestMarkTaskCompleted(UUID id)
     {
-        if (Objects.isNull(updateTasksHandler))
+        if (Objects.isNull(markTaskHandler))
         {
-            throw new IllegalStateException("TasksMediator.updateTasksHandler not set!");
+            throw new IllegalStateException("TasksMediator.markTaskHandler not set!");
         }
         
+        markTaskHandler.markTaskCompleted(id);
+    }
+        
+    public void requestMarkTaskTodo(UUID id)
+    {
+        if (Objects.isNull(markTaskHandler))
+        {
+            throw new IllegalStateException("TasksMediator.markTaskHandler not set!");
+        }
+        
+        markTaskHandler.markTaskTodo(id);
+    }
+    
+    public void requestDeleteTask(UUID id)
+    {
+        if (Objects.isNull(deleteTaskHandler))
+        {
+            throw new IllegalStateException("TasksMediator.deleteTaskHandler not set!");
+        }
+        
+        deleteTaskHandler.deleteTask(id);
+    }
+    
+    public void setOnAddTaskHandler(TaskCreatorInterface taskAdder)
+    {        
         this.addTaskHandler = taskAdder;
     }
     
     public void setOnUpdateTasksHandler(TasksUpdaterInterface tasksUpdater)
-    {
+    {        
         this.updateTasksHandler = tasksUpdater;
+    }
+    
+    public void setOnMarkTaskHandler(TaskMarkerInterface taskMarker)
+    {
+        this.markTaskHandler = taskMarker;
+    }
+    
+    public void setOnDeleteTaskHandler(TaskDeleterInterface taskDeleter)
+    {
+        this.deleteTaskHandler = taskDeleter;
     }
     
 }

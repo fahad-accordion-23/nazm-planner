@@ -1,9 +1,13 @@
 package nazmplanner.application.tasks;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
+
 import nazmplanner.domain.tasks.TaskSystem;
 import nazmplanner.ui.tasks.TasksMediator;
 import nazmplanner.ui.tasks.contracts.TaskCreatorInterface;
+import nazmplanner.ui.tasks.contracts.TaskDeleterInterface;
+import nazmplanner.ui.tasks.contracts.TaskMarkerInterface;
 
 /**
  * <h2>TaskController</h2>
@@ -13,7 +17,7 @@ import nazmplanner.ui.tasks.contracts.TaskCreatorInterface;
  * @author Fahad Hassan
  * @version 22/11/2025
  */
-public class TaskController implements TaskCreatorInterface
+public class TaskController implements TaskCreatorInterface, TaskMarkerInterface, TaskDeleterInterface
 {
     
     private final TasksMediator tasksMediator;
@@ -25,6 +29,8 @@ public class TaskController implements TaskCreatorInterface
         this.tasksMediator = tasksMediator;
         
         tasksMediator.setOnAddTaskHandler(this);
+        tasksMediator.setOnMarkTaskHandler(this);
+        tasksMediator.setOnDeleteTaskHandler(this);
         updateTasks();
     }
     
@@ -36,6 +42,27 @@ public class TaskController implements TaskCreatorInterface
     public void addTask(String title, String description, LocalDateTime dueDate)
     {
         taskSystem.addTask(title, description, dueDate);
+        tasksMediator.requestUpdateTasks(taskSystem.getAllTasks());
+    }
+
+    @Override
+    public void markTaskCompleted(UUID id)
+    {
+        taskSystem.markTaskCompleted(id);
+        tasksMediator.requestUpdateTasks(taskSystem.getAllTasks());
+    }
+
+    @Override
+    public void markTaskTodo(UUID id)
+    {
+        taskSystem.markTaskTodo(id);
+        tasksMediator.requestUpdateTasks(taskSystem.getAllTasks());
+    }
+    
+    @Override
+    public void deleteTask(UUID id)
+    {
+        taskSystem.deleteTask(id);
         tasksMediator.requestUpdateTasks(taskSystem.getAllTasks());
     }
     
