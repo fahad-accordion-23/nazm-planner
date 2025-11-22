@@ -1,7 +1,11 @@
 package nazmplanner;
 
 import java.awt.EventQueue;
+
+import nazmplanner.domain.tasks.*;
+import nazmplanner.application.tasks.*;
 import nazmplanner.ui.MainFrame;
+import nazmplanner.ui.tasks.*;
 
 /**
  * <h2>PlannerApp</h2>
@@ -9,16 +13,25 @@ import nazmplanner.ui.MainFrame;
  * <p>Entry point for the app.</p>
  * 
  * @author Fahad Hassan
- * @version 21/11/2025
+ * @version 22/11/2025
  */
 public class PlannerApp
 {
    
-    public void main()
+    public static void main(String[] args)
     {
         EventQueue.invokeLater(() -> 
         {
+            
             MainFrame mainFrame = new MainFrame();
+
+            TaskSystem taskSystem = new TaskSystem();
+            
+            TaskController taskController = new TaskController(
+                    taskSystem,
+                    mainFrame.getTasksPanel().getPrimaryPanel().getTaskCardListPanel(),
+                    mainFrame.getTasksPanel().getPrimaryPanel().getCreationFormPanel());
+            
             mainFrame.setVisible(true);
         });
     }

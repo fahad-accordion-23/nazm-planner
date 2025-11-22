@@ -2,6 +2,9 @@ package nazmplanner.ui.tasks;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -10,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+
+import nazmplanner.application.tasks.TaskController;
 import nazmplanner.ui.components.CardPanel;
 
 /**
@@ -22,6 +27,7 @@ import nazmplanner.ui.components.CardPanel;
  */
 public class CreationFormPanel extends CardPanel
 {
+    private TaskCreationListener listener;
     private JButton addButton;
     private JTextField titleField;
     private JSpinner dateSpinner;
@@ -31,11 +37,12 @@ public class CreationFormPanel extends CardPanel
         initComponents();
         initLayout();
         initStyling();
+        initEvents();
     }
     
     private void initComponents()
     {
-        addButton = new JButton("+");
+        addButton = new JButton("+");        
         titleField = new JTextField();
         titleField.setToolTipText("What needs to be done?");
         
@@ -60,6 +67,28 @@ public class CreationFormPanel extends CardPanel
     private void initStyling()
     {
         setBackground(Color.DARK_GRAY);
+    }
+    
+    private void initEvents()
+    {
+        addButton.addActionListener(e -> 
+        {
+            if (listener != null) 
+            {
+                String title = titleField.getText();
+
+                LocalDateTime dueDate = LocalDateTime.ofInstant(
+                    ((Date) dateSpinner.getValue()).toInstant(),
+                    ZoneId.systemDefault()
+                );
+                listener.taskCreated(title, "", dueDate);
+            }
+        });
+    }
+    
+    public void setTaskCreationListener(TaskCreationListener listener)
+    {
+        this.listener = listener;
     }
     
 }

@@ -10,7 +10,7 @@ import nazmplanner.ui.tasks.*;
  * Currently only displays the TasksPanel at the bottom.</p>
  * 
  * @author Fahad Hassan
- * @version 21/11/2025
+ * @version 22/11/2025
  */
 public class MainFrame extends JFrame
 {
@@ -26,5 +26,20 @@ public class MainFrame extends JFrame
         
         tasksPanel = new TasksPanel();
         super.add(tasksPanel);
+    }
+
+    public static int getDefaultWidth()
+    {
+        return DEFAULT_WIDTH;
+    }
+
+    public static int getDefaultHeight()
+    {
+        return DEFAULT_HEIGHT;
+    }
+
+    public TasksPanel getTasksPanel()
+    {
+        return tasksPanel;
     }
 }

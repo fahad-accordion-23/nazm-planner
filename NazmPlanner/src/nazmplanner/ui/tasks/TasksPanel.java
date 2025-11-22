@@ -26,6 +26,16 @@ public class TasksPanel extends JPanel
         initLayout();
     }
     
+    public PrimaryPanel getPrimaryPanel()
+    {
+        return primaryPanel;
+    }
+
+    public SidebarPanel getSidebarPanel()
+    {
+        return sidebarPanel;
+    }
+    
     private void initLayout()
     {
         super.setLayout(new GridBagLayout());

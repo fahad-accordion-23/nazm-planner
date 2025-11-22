@@ -61,4 +61,25 @@ public class PrimaryPanel extends JPanel
                   .setAnchor(GridBagConstraints.SOUTH)
                   .setFill(GridBagConstraints.HORIZONTAL));
     }
+
+    public HeaderPanel getHeaderPanel()
+    {
+        return headerPanel;
+    }
+
+    public TaskCardListPanel getTaskCardListPanel()
+    {
+        return taskCardListPanel;
+    }
+
+    public JScrollPane getTaskCardListScrollPane()
+    {
+        return taskCardListScrollPane;
+    }
+
+    public CreationFormPanel getCreationFormPanel()
+    {
+        return creationFormPanel;
+    }
+        
 }
