@@ -1,6 +1,8 @@
 package nazmplanner.ui.tasks.components;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.format.DateTimeFormatter;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -79,6 +81,15 @@ public class TaskCardPanel extends CardPanel
             {
                 tasksMediator.requestMarkTaskTodo(task.getID());
             }  
+        });
+        
+        super.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                tasksMediator.requestSelectTask(task.getID());
+            }
         });
     }
     
