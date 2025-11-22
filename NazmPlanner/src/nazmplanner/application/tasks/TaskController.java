@@ -23,7 +23,14 @@ public class TaskController implements TaskCreatorInterface
     {
         this.taskSystem = taskSystem;
         this.tasksMediator = tasksMediator;
+        
         tasksMediator.setOnAddTaskHandler(this);
+        updateTasks();
+    }
+    
+    public void updateTasks()
+    {
+        tasksMediator.requestUpdateTasks(taskSystem.getAllTasks());
     }
         
     public void addTask(String title, String description, LocalDateTime dueDate)

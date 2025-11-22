@@ -34,6 +34,21 @@ public class Task
         setDueDate(dueDate);
     }
     
+    /**
+     * @brief Used for restoring tasks. DO NOT USE OUTSIDE PERSISTENCE!!!
+     * 
+     * TODO: replace with something safer
+     */
+    public Task(UUID id, String title, String description, TaskStatus status, LocalDateTime dueDate, LocalDateTime creationDate)
+    {
+        this.ID = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.dueDate = dueDate;
+        this.creationDate = creationDate;
+    }
+    
     /* METHODS */
 
     public UUID getID()

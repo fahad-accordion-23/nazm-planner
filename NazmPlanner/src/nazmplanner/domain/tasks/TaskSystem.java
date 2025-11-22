@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import nazmplanner.infrastructure.persistence.tasks.JSONTaskRepository;
+
 /**
  * <h2>TaskSystem</h2>
  * 
@@ -19,11 +21,12 @@ import java.util.UUID;
  */
 public class TaskSystem
 {
-    private final Map<UUID, Task> taskRepository;
+    
+    private final TaskRepository taskRepository;
 
     public TaskSystem()
     {
-        taskRepository = new HashMap<UUID, Task>();
+        taskRepository = new JSONTaskRepository("data/tasks/tasks.json");
     }
 
     public Task addTask(String title, String description, LocalDateTime dueDate)
@@ -39,13 +42,15 @@ public class TaskSystem
         }
 
         Task newTask = new Task(title, description, dueDate);
-        taskRepository.put(newTask.getID(), newTask);
+        
+        taskRepository.save(newTask);
 
         return newTask;
     } 
 
     public List<Task> getAllTasks()
     {
-        return Collections.unmodifiableList(new ArrayList<>(taskRepository.values()));
+        return Collections.unmodifiableList(taskRepository.findAll());
     }
+    
 }
