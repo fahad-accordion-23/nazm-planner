@@ -1,3 +1,16 @@
+# Eclipse 
 /.metadata/
-my-access-key.txt
-NazmPlanner/data/*
+.classpath
+.project
+.settings/
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS Junk
+.DS_Store
+Thumbs.db
