@@ -1,8 +1,8 @@
-# Eclipse 
-/.metadata/
+# Eclipse
 .classpath
 .project
 .settings/
+bin/
 
 # IntelliJ
 .idea/
@@ -11,6 +11,13 @@
 # VS Code
 .vscode/
 
-# OS Junk
+# OS junk
 .DS_Store
 Thumbs.db
+
+# Maven output
+target/
+
+# Local app data (keep folder, ignore contents)
+data/*
+!data/.gitkeep
