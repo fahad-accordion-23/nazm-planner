@@ -1,6 +1,8 @@
 package nazmplanner.ui.tasks.components;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.format.DateTimeFormatter;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,6 +11,7 @@ import javax.swing.JLabel;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.ui.components.CardPanel;
+import nazmplanner.ui.tasks.TasksMediator;
 
 /**
  * <h2>TaskCardPanel</h2>
@@ -21,21 +24,23 @@ import nazmplanner.ui.components.CardPanel;
 public class TaskCardPanel extends CardPanel
 {
     
+    private final TasksMediator tasksMediator;
     private final Task task;
-    
     private JCheckBox statusBox;
     private JLabel titleLabel;
     private JLabel dueDateLabel;
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
     
-    public TaskCardPanel(Task task)
+    public TaskCardPanel(Task task, TasksMediator tasksMediator)
     {
+        this.tasksMediator = tasksMediator;
         this.task = task;
 
         initComponents();
         initLayout();
         initStyling();
+        initEvents();
         
         refresh();
     }
@@ -62,6 +67,30 @@ public class TaskCardPanel extends CardPanel
     {
         dueDateLabel.setForeground(new Color(120, 120, 120, 120));
         statusBox.setOpaque(false);
+    }
+    
+    private void initEvents()
+    {
+        statusBox.addActionListener(e ->
+        {
+            if (statusBox.isSelected())
+            {
+                tasksMediator.requestMarkTaskCompleted(task.getID());
+            }
+            else
+            {
+                tasksMediator.requestMarkTaskTodo(task.getID());
+            }  
+        });
+        
+        super.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                tasksMediator.requestSelectTask(task.getID());
+            }
+        });
     }
     
     private void refresh()

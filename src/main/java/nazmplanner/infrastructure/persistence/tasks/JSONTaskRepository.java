@@ -151,4 +151,26 @@ public class JSONTaskRepository implements TaskRepository
         }
     }
     
+    @Override
+    public Task findById(UUID id)
+    {
+        return findAll().stream()
+                .filter(t -> t.getID().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+    
+    public void delete(UUID id)
+    {
+        List<Task> allTasks = findAll();
+        
+        // Remove the task with the matching ID
+        boolean removed = allTasks.removeIf(t -> t.getID().equals(id));
+        
+        if (removed)
+        {
+            saveAll(allTasks);
+        }
+    }
+    
 }

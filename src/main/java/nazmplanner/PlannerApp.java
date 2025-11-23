@@ -3,9 +3,9 @@ package nazmplanner;
 import java.awt.EventQueue;
 
 import nazmplanner.domain.tasks.*;
+import nazmplanner.infrastructure.persistence.tasks.DatabaseManager;
 import nazmplanner.application.tasks.*;
 import nazmplanner.ui.MainFrame;
-import nazmplanner.ui.tasks.*;
 
 /**
  * <h2>PlannerApp</h2>
@@ -22,6 +22,9 @@ public class PlannerApp
     {
         EventQueue.invokeLater(() -> 
         {
+        	/* Database */
+        	DatabaseManager.initializeDatabase();
+        	
             /* UI */
             MainFrame mainFrame = new MainFrame();
             

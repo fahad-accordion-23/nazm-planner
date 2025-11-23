@@ -34,7 +34,7 @@ public class TaskCardListPanel extends CardListPanel implements TasksUpdaterInte
         
         for (Task task : tasks)
         {
-            addCard(new TaskCardPanel(task));
+            addCard(new TaskCardPanel(task, tasksMediator));
         }
     }
     
