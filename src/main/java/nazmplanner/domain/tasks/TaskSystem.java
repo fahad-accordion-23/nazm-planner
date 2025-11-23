@@ -1,15 +1,11 @@
 package nazmplanner.domain.tasks;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-
-import nazmplanner.infrastructure.persistence.tasks.JSONTaskRepository;
+import nazmplanner.infrastructure.persistence.tasks.SqliteTaskRepository;
 
 /**
  * <h2>TaskSystem</h2>
@@ -26,7 +22,8 @@ public class TaskSystem
 
     public TaskSystem()
     {
-        taskRepository = new JSONTaskRepository("data/tasks/tasks.json");
+        //taskRepository = new JSONTaskRepository("data/tasks/tasks.json");
+    	taskRepository = new SqliteTaskRepository();
     }
 
     public Task addTask(String title, String description, LocalDateTime dueDate)

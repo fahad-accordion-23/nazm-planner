@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DatabaseManager {
     
-    private static final String URL = "jdbc:sqlite:nazmplanner.db";
+    private static final String URL = "jdbc:sqlite:data/nazmplanner.db";
 
     public static Connection getConnection() throws SQLException {
         try {
