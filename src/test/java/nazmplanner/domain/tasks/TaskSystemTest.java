@@ -1,4 +1,4 @@
-package nazmplanner.application.tasks;
+package nazmplanner.domain.tasks;
 
 // Imports required because these classes are in the 'domain' package
 import nazmplanner.domain.tasks.Task;
@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +35,7 @@ class TaskSystemTest
     @DisplayName("addTask should store and return a new Task")
     void shouldAddTaskSuccessfully()
     {
-        Task created = system.addTask("Buy Milk", "Groceries", LocalDate.now());
+        Task created = system.addTask("Buy Milk", "Groceries", LocalDateTime.now());
 
         assertNotNull(created);
         assertNotNull(created.getID());
@@ -55,7 +55,7 @@ class TaskSystemTest
     {
         assertThrows(IllegalArgumentException.class, () ->
         {
-            system.addTask(badTitle, "Desc", LocalDate.now());
+            system.addTask(badTitle, "Desc", LocalDateTime.now());
         });
     }
 
@@ -82,7 +82,7 @@ class TaskSystemTest
     @DisplayName("getAllTasks should return unmodifiable list")
     void shouldReturnUnmodifiableList()
     {
-        system.addTask("T1", "D", LocalDate.now());
+        system.addTask("T1", "D", LocalDateTime.now());
         List<Task> tasks = system.getAllTasks();
 
         // Try to modify the returned list directly
@@ -96,7 +96,7 @@ class TaskSystemTest
 //    @DisplayName("getTask should return specific task by ID")
 //    void shouldGetTaskById()
 //    {
-//        Task created = system.addTask("Target", "Desc", LocalDate.now());
+//        Task created = system.addTask("Target", "Desc", LocalDateTime.now());
 //        Task retrieved = system.getTask(created.getID());
 //
 //        assertEquals(created, retrieved);
@@ -115,7 +115,7 @@ class TaskSystemTest
 //    @DisplayName("completeTask should update status of existing task")
 //    void shouldCompleteTask()
 //    {
-//        Task created = system.addTask("To Finish", "Desc", LocalDate.now());
+//        Task created = system.addTask("To Finish", "Desc", LocalDateTime.now());
 //
 //        system.completeTask(created.getID());
 //

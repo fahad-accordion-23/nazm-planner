@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 // No import needed for Task or TaskStatus because they are in the same package!
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +19,7 @@ class TaskTest
     {
         String title = "Test Task";
         String description = "Description";
-        LocalDate dueDate = LocalDate.now().plusDays(1);
+        LocalDateTime dueDate = LocalDateTime.now().plusDays(5);
 
         Task task = new Task(title, description, dueDate);
 
@@ -39,7 +38,7 @@ class TaskTest
     @DisplayName("Constructor should default title to 'New Task' if null provided")
     void shouldDefaultTitleIfNull()
     {
-        Task task = new Task(null, "Desc", LocalDate.now());
+        Task task = new Task(null, "Desc", LocalDateTime.now());
         assertEquals("New Task", task.getTitle());
     }
 
@@ -59,7 +58,7 @@ class TaskTest
     @DisplayName("setTitle should handle nulls gracefully by defaulting")
     void setTitleShouldHandleNull()
     {
-        Task task = new Task("Original", "Desc", LocalDate.now());
+        Task task = new Task("Original", "Desc", LocalDateTime.now());
         task.setTitle(null);
         assertEquals("New Task", task.getTitle());
     }
@@ -68,7 +67,7 @@ class TaskTest
     @DisplayName("setDueDate should throw NPE on null")
     void setDueDateShouldThrowOnNull()
     {
-        Task task = new Task("Title", "Desc", LocalDate.now());
+        Task task = new Task("Title", "Desc", LocalDateTime.now());
         assertThrows(NullPointerException.class, () ->
         {
             task.setDueDate(null);
@@ -81,7 +80,7 @@ class TaskTest
     @DisplayName("markCompleted should change status to COMPLETED")
     void shouldMarkCompleted()
     {
-        Task task = new Task("Title", "Desc", LocalDate.now());
+        Task task = new Task("Title", "Desc", LocalDateTime.now());
         task.markCompleted();
         assertEquals(TaskStatus.COMPLETED, task.getStatus());
     }
@@ -90,7 +89,7 @@ class TaskTest
     @DisplayName("markTodo should change status back to TODO")
     void shouldMarkTodo()
     {
-        Task task = new Task("Title", "Desc", LocalDate.now());
+        Task task = new Task("Title", "Desc", LocalDateTime.now());
         task.markCompleted(); // First set to complete
         task.markTodo(); // Then revert
         assertEquals(TaskStatus.TODO, task.getStatus());
