@@ -8,13 +8,15 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import nazmplanner.infrastructure.persistence.events.JSONCalendarEventRepository;
+
 public class CalendarEventSystem
 {
     private CalendarEventRepository calendarEventRepository;
     
     public CalendarEventSystem()
     {
-        //calendarEventRepository = new JSONCalendarEventRepository();
+        calendarEventRepository = new JSONCalendarEventRepository("data/events/events.json");
     }
     
     public void addCalendarEvent(String title, String description, LocalDateTime start, LocalDateTime end)
