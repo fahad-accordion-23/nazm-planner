@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 // NEW IMPORTS: Use the SQLite implementation instead of JSON
 import nazmplanner.infrastructure.persistence.tasks.DatabaseManager;
@@ -52,6 +53,16 @@ public class TaskSystem
     public List<Task> getAllTasks()
     {
         return Collections.unmodifiableList(taskRepository.findAll());
+    }
+    
+    public void deleteTask(UUID id) {
+    	taskRepository.delete(id);
+    	
+    }
+    
+    public Task findById(UUID id)
+    {
+        return taskRepository.findById(id);
     }
     
 }
