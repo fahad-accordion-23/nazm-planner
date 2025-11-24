@@ -32,7 +32,7 @@ public class PlannerApp
             TaskSystem taskSystem = new TaskSystem();
             
             /* Application */
-            TaskController taskController = new TaskController(taskSystem, mainFrame.getTasksMediator());
+            TaskController taskController = new TaskController(taskSystem, mainFrame.getMainMediator());
             
             mainFrame.setVisible(true);
         });

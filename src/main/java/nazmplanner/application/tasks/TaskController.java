@@ -5,7 +5,7 @@ import java.util.UUID;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.domain.tasks.TaskSystem;
-import nazmplanner.ui.tasks.TasksMediator;
+import nazmplanner.ui.MainMediator;
 import nazmplanner.ui.tasks.contracts.TaskAddedEvent;
 import nazmplanner.ui.tasks.contracts.TaskDeletedEvent;
 import nazmplanner.ui.tasks.contracts.TaskDisplayedEvent;
@@ -26,26 +26,27 @@ import nazmplanner.ui.tasks.contracts.TasksUpdatedEvent;
 public class TaskController
 {
     
-    private final TasksMediator tasksMediator;
+    private final MainMediator mainMediator;
     private final TaskSystem taskSystem;
     private UUID selectedTaskId;
     
-    public TaskController(TaskSystem taskSystem, TasksMediator tasksMediator)
+    public TaskController(TaskSystem taskSystem, MainMediator mainMediator)
     {
         this.taskSystem = taskSystem;
-        this.tasksMediator = tasksMediator;
+        this.mainMediator = mainMediator;
         
-        tasksMediator.subscribe(TaskAddedEvent.class, this::onEvent);
-        tasksMediator.subscribe(TaskMarkedEvent.class, this::onEvent);
-        tasksMediator.subscribe(TaskDeletedEvent.class, this::onEvent);
-        tasksMediator.subscribe(TaskSelectedEvent.class, this::onEvent);
-        tasksMediator.subscribe(TaskEditedEvent.class, this::onEvent);
+        mainMediator.subscribe(TaskAddedEvent.class, this::onEvent);
+        mainMediator.subscribe(TaskMarkedEvent.class, this::onEvent);
+        mainMediator.subscribe(TaskDeletedEvent.class, this::onEvent);
+        mainMediator.subscribe(TaskSelectedEvent.class, this::onEvent);
+        mainMediator.subscribe(TaskEditedEvent.class, this::onEvent);
+        
         updateTasks();
     }
     
     public void updateTasks()
     {
-        tasksMediator.publish(new TasksUpdatedEvent(taskSystem.getAllTasks()));
+        mainMediator.publish(new TasksUpdatedEvent(taskSystem.getAllTasks()));
     }
     
 
@@ -54,7 +55,7 @@ public class TaskController
         Task task = taskSystem.findById(id);
         if (task != null)
         {
-            tasksMediator.publish(new TaskUpdatedEvent(task));
+            mainMediator.publish(new TaskUpdatedEvent(task));
         }
     }
         
@@ -90,7 +91,7 @@ public class TaskController
         if (id.equals(selectedTaskId))
         {
             selectedTaskId = null;
-            tasksMediator.publish(new TaskDisplayedEvent(null));
+            mainMediator.publish(new TaskDisplayedEvent(null));
         }
     }
 
@@ -105,7 +106,7 @@ public class TaskController
             throw new IllegalArgumentException("Attempted to select non-existent task: " + id);
         }
 
-        tasksMediator.publish(new TaskDisplayedEvent(task));
+        mainMediator.publish(new TaskDisplayedEvent(task));
     }
 
     private void onEvent(TaskEditedEvent event)

@@ -1,7 +1,14 @@
 package nazmplanner.ui;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import nazmplanner.ui.tasks.*;
+
+import nazmplanner.ui.util.GBC;
 
 /**
  * <h2>MainFrame</h2>
@@ -14,27 +21,55 @@ import nazmplanner.ui.tasks.*;
  */
 public class MainFrame extends JFrame
 {
-    
-    private final TasksMediator tasksMediator;
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
-    private TasksPanel tasksPanel;
     
-    public MainFrame()
-    {
-        this.tasksMediator = new TasksMediator();
+    private MainMediator mainMediator;
+    private NavbarPanel navbarPanel;
+    private ViewPanel viewPanel;
         
+    public MainFrame()
+    {                
+        mainMediator = new MainMediator();
+        
+        initComponents();
+        initLayout();
+        initStyling();
+    }
+    
+    private void initComponents()
+    {
+        navbarPanel = new NavbarPanel(mainMediator);
+        viewPanel = new ViewPanel(mainMediator);
+    }
+    
+    private void initLayout()
+    {
+        setLayout(new GridBagLayout());
+        add(navbarPanel, 
+            new GBC(0, 0)
+            .setAnchor(GridBagConstraints.NORTH)
+            .setWeight(1.00, 0.00)
+            .setFill(GridBagConstraints.HORIZONTAL));
+        
+        add(viewPanel, 
+                new GBC(0, 1)
+                .setAnchor(GridBagConstraints.NORTH)
+                .setWeight(1.00, 1.00)
+                .setFill(GridBagConstraints.BOTH));
+            
+        pack();
+    }
+    
+    private void initStyling()
+    {
         super.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setTitle("Nazm Planner");
-        
-        tasksPanel = new TasksPanel(tasksMediator);
-        super.add(tasksPanel);
     }
     
-    public TasksMediator getTasksMediator()
+    public MainMediator getMainMediator()
     {
-        return tasksMediator;
+        return mainMediator;
     }
-
 }
