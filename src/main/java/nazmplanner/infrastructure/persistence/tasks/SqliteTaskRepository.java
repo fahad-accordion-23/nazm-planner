@@ -53,7 +53,10 @@ public class SqliteTaskRepository implements TaskRepository {
     @Override
     public List<Task> findAll() {
         List<Task> tasks = new ArrayList<>();
-        String sql = "SELECT * FROM tasks";
+        
+        // FIX: Added ORDER BY creation_date to ensure the list order remains stable 
+        // even when a task is updated (which triggers a REPLACE).
+        String sql = "SELECT * FROM tasks ORDER BY creation_date ASC";
 
         try (Connection conn = DatabaseManager.getConnection();
              Statement stmt = conn.createStatement();
