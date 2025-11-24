@@ -13,7 +13,11 @@ import javax.swing.JTextField;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.contracts.TaskViewerInterface;
+import nazmplanner.ui.tasks.contracts.TaskDeletedEvent;
+import nazmplanner.ui.tasks.contracts.TaskDisplayedEvent;
+import nazmplanner.ui.tasks.contracts.TaskEditedEvent;
+import nazmplanner.ui.tasks.contracts.TaskMarkedEvent;
+import nazmplanner.ui.tasks.contracts.TaskUpdatedEvent;
 import nazmplanner.ui.util.GBC;
 
 /**
@@ -24,7 +28,7 @@ import nazmplanner.ui.util.GBC;
  * @author Fahad Hassan
  * @version 22/11/2025
  */
-public class DetailPanel extends JPanel implements TaskViewerInterface
+public class DetailPanel extends JPanel
 {
     
     private final TasksMediator tasksMediator;
@@ -44,7 +48,8 @@ public class DetailPanel extends JPanel implements TaskViewerInterface
     public DetailPanel(TasksMediator tasksMediator)
     {
         this.tasksMediator = tasksMediator;
-        tasksMediator.setOnTaskViewer(this); 
+        tasksMediator.subscribe(TaskDisplayedEvent.class, this::onTaskDisplayed);
+        tasksMediator.subscribe(TaskUpdatedEvent.class, this::onTaskUpdated);
         
         initComponents();
         initStyling();
@@ -52,7 +57,7 @@ public class DetailPanel extends JPanel implements TaskViewerInterface
         initEvents();
         
         setVisible(false);
-        displayTask(null);
+        updateView(null);
     }
 
     private void initComponents()
@@ -152,8 +157,8 @@ public class DetailPanel extends JPanel implements TaskViewerInterface
         {
             if (currentTask != null) 
             {
-                tasksMediator.requestDeleteTask(currentTask.getID());
-                displayTask(null);
+                tasksMediator.publish(new TaskDeletedEvent(currentTask.getID()));
+                // We don't set null here manually, the controller will fire TaskDisplayedEvent(null)
             }
         });
         
@@ -161,13 +166,11 @@ public class DetailPanel extends JPanel implements TaskViewerInterface
         {
             if (currentTask != null)
             {
-                if (currentTask.getStatus() == TaskStatus.TODO) {
-                    tasksMediator.requestMarkTaskCompleted(currentTask.getID());
-                } 
-                else 
-                {
-                    tasksMediator.requestMarkTaskTodo(currentTask.getID());
-                }
+                TaskStatus newStatus = (currentTask.getStatus() == TaskStatus.TODO) 
+                                       ? TaskStatus.COMPLETED 
+                                       : TaskStatus.TODO;
+                                       
+                tasksMediator.publish(new TaskMarkedEvent(currentTask.getID(), newStatus));
             }
         });
         
@@ -183,13 +186,25 @@ public class DetailPanel extends JPanel implements TaskViewerInterface
                 String newTitle = titleField.getText();
                 String newDescription = descriptionArea.getText();
                 
-                tasksMediator.requestEditTask(currentTask.getID(), newTitle, newDescription);
+                tasksMediator.publish(new TaskEditedEvent(currentTask.getID(), newTitle, newDescription));
             }
         });
     }
 
-    @Override
-    public void displayTask(Task task)
+    private void onTaskDisplayed(TaskDisplayedEvent event)
+    {
+        updateView(event.task());
+    }
+    
+    private void onTaskUpdated(TaskUpdatedEvent event)
+    {
+        if (currentTask != null && event.task().getID().equals(currentTask.getID()))
+        {
+            updateView(event.task());
+        }
+    }
+    
+    private void updateView(Task task)
     {
         this.currentTask = task;
         
@@ -241,7 +256,7 @@ public class DetailPanel extends JPanel implements TaskViewerInterface
     
     public void closePanel()
     {
-        displayTask(null);
+        updateView(null);
     }
     
 }

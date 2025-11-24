@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import nazmplanner.ui.components.CardPanel;
 import nazmplanner.ui.tasks.TasksMediator;
+import nazmplanner.ui.tasks.contracts.TaskAddedEvent;
 
 /**
  * <h2>CreationFormPanel</h2>
@@ -87,7 +87,7 @@ public class CreationFormPanel extends CardPanel
                 ZoneId.systemDefault()
             );
             
-            tasksMediator.requestAddTask(title, "", dueDate);
+            tasksMediator.publish(new TaskAddedEvent(title, "", dueDate));
         });
     }
     

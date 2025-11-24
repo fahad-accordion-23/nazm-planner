@@ -1,11 +1,10 @@
 package nazmplanner.ui.tasks.components;
 
 import java.awt.Color;
-import java.util.List;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.ui.components.CardListPanel;
 import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.contracts.TasksUpdaterInterface;
+import nazmplanner.ui.tasks.contracts.TasksUpdatedEvent;
 
 /**
  * <h2>TaskCardListPanel</h2>
@@ -13,9 +12,9 @@ import nazmplanner.ui.tasks.contracts.TasksUpdaterInterface;
  * <p>Container for displaying TaskCardPanel objects in a vbox style</p>
  * 
  *  @author Fahad Hassan
- *  @version 22/11/2025
+ *  @version 24/11/2025
  */
-public class TaskCardListPanel extends CardListPanel implements TasksUpdaterInterface
+public class TaskCardListPanel extends CardListPanel
 {
    
     private final TasksMediator tasksMediator;
@@ -23,16 +22,16 @@ public class TaskCardListPanel extends CardListPanel implements TasksUpdaterInte
     public TaskCardListPanel(TasksMediator tasksMediator)
     {
         this.tasksMediator = tasksMediator;
-        tasksMediator.setOnUpdateTasksHandler(this);
+        tasksMediator.subscribe(TasksUpdatedEvent.class, this::onTaskUpdated);
         
         initStyling();
     }
     
-    public void updateTasks(List<Task> tasks)
+    public void onTaskUpdated(TasksUpdatedEvent event)
     {
         clear();
         
-        for (Task task : tasks)
+        for (Task task : event.tasks())
         {
             addCard(new TaskCardPanel(task, tasksMediator));
         }
