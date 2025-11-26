@@ -75,11 +75,18 @@ public class TaskCardPanel extends CardPanel
     {
         statusBox.addActionListener(e ->
         {
+            TaskStatus newStatus = TaskStatus.COMPLETED;
+            
             if (statusBox.isSelected())
             {
-                TaskStatus newStatus = statusBox.isSelected() ? TaskStatus.COMPLETED : TaskStatus.TODO;
-                tasksMediator.publish(new TaskMarkedEvent(task.getID(), newStatus));
+                newStatus = TaskStatus.COMPLETED;
             }
+            else
+            {
+                newStatus = TaskStatus.TODO;
+            }
+            
+            tasksMediator.publish(new TaskMarkedEvent(task.getID(), newStatus));
         });
         
         super.addMouseListener(new MouseAdapter()
