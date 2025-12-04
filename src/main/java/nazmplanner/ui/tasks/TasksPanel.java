@@ -7,16 +7,16 @@ import javax.swing.JPanel;
 import nazmplanner.ui.MainMediator;
 import nazmplanner.ui.tasks.components.PrimaryPanel;
 import nazmplanner.ui.tasks.components.SidebarPanel;
-import nazmplanner.ui.tasks.contracts.TaskAddedEvent;
-import nazmplanner.ui.tasks.contracts.TaskDeletedEvent;
-import nazmplanner.ui.tasks.contracts.TaskDisplayedEvent;
-import nazmplanner.ui.tasks.contracts.TaskEditedEvent;
-import nazmplanner.ui.tasks.contracts.TaskMarkedEvent;
-import nazmplanner.ui.tasks.contracts.TaskSelectedEvent;
-import nazmplanner.ui.tasks.contracts.TaskUpdatedEvent;
-import nazmplanner.ui.tasks.contracts.TasksUpdatedEvent;
+import nazmplanner.ui.tasks.message.TaskAddedMessage;
+import nazmplanner.ui.tasks.message.TaskDeletedMessage;
+import nazmplanner.ui.tasks.message.TaskDisplayedMessage;
+import nazmplanner.ui.tasks.message.TaskEditedMessage;
+import nazmplanner.ui.tasks.message.TaskMarkedMessage;
+import nazmplanner.ui.tasks.message.TaskSelectedMessage;
+import nazmplanner.ui.tasks.message.TaskUpdatedMessage;
+import nazmplanner.ui.tasks.message.TasksUpdatedMessage;
 import nazmplanner.ui.util.GBC;
-import nazmplanner.util.Event;
+import nazmplanner.util.messaging.Message;
 
 /**
  * <h2>TasksPanel</h2>
@@ -40,26 +40,26 @@ public class TasksPanel extends JPanel
         this.tasksMediator = new TasksMediator();
         this.mainMediator = mainMediator;
         
-        mainMediator.subscribe(TasksUpdatedEvent.class, this::onEventForwardToTasksMediator);
-        mainMediator.subscribe(TaskUpdatedEvent.class, this::onEventForwardToTasksMediator);
-        mainMediator.subscribe(TaskDisplayedEvent.class, this::onEventForwardToTasksMediator);
+        mainMediator.subscribe(TasksUpdatedMessage.class, this::onEventForwardToTasksMediator);
+        mainMediator.subscribe(TaskUpdatedMessage.class, this::onEventForwardToTasksMediator);
+        mainMediator.subscribe(TaskDisplayedMessage.class, this::onEventForwardToTasksMediator);
         
-        tasksMediator.subscribe(TaskEditedEvent.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskAddedEvent.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskDeletedEvent.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskMarkedEvent.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskSelectedEvent.class, this::onEventForwardToMainMediator);
+        tasksMediator.subscribe(TaskEditedMessage.class, this::onEventForwardToMainMediator);
+        tasksMediator.subscribe(TaskAddedMessage.class, this::onEventForwardToMainMediator);
+        tasksMediator.subscribe(TaskDeletedMessage.class, this::onEventForwardToMainMediator);
+        tasksMediator.subscribe(TaskMarkedMessage.class, this::onEventForwardToMainMediator);
+        tasksMediator.subscribe(TaskSelectedMessage.class, this::onEventForwardToMainMediator);
         
         initComponents();
         initLayout();
     }
     
-    public void onEventForwardToTasksMediator(Event event)
+    public void onEventForwardToTasksMediator(Message event)
     {
         tasksMediator.publish(event);
     }
     
-    public void onEventForwardToMainMediator(Event event)
+    public void onEventForwardToMainMediator(Message event)
     {
         mainMediator.publish(event);
     }

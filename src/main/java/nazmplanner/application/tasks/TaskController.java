@@ -6,14 +6,14 @@ import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.domain.tasks.TaskSystem;
 import nazmplanner.ui.MainMediator;
-import nazmplanner.ui.tasks.contracts.TaskAddedEvent;
-import nazmplanner.ui.tasks.contracts.TaskDeletedEvent;
-import nazmplanner.ui.tasks.contracts.TaskDisplayedEvent;
-import nazmplanner.ui.tasks.contracts.TaskEditedEvent;
-import nazmplanner.ui.tasks.contracts.TaskMarkedEvent;
-import nazmplanner.ui.tasks.contracts.TaskSelectedEvent;
-import nazmplanner.ui.tasks.contracts.TaskUpdatedEvent;
-import nazmplanner.ui.tasks.contracts.TasksUpdatedEvent;
+import nazmplanner.ui.tasks.message.TaskAddedMessage;
+import nazmplanner.ui.tasks.message.TaskDeletedMessage;
+import nazmplanner.ui.tasks.message.TaskDisplayedMessage;
+import nazmplanner.ui.tasks.message.TaskEditedMessage;
+import nazmplanner.ui.tasks.message.TaskMarkedMessage;
+import nazmplanner.ui.tasks.message.TaskSelectedMessage;
+import nazmplanner.ui.tasks.message.TaskUpdatedMessage;
+import nazmplanner.ui.tasks.message.TasksUpdatedMessage;
 
 /**
  * <h2>TaskController</h2>
@@ -35,18 +35,18 @@ public class TaskController
         this.taskSystem = taskSystem;
         this.mainMediator = mainMediator;
         
-        mainMediator.subscribe(TaskAddedEvent.class, this::onEvent);
-        mainMediator.subscribe(TaskMarkedEvent.class, this::onEvent);
-        mainMediator.subscribe(TaskDeletedEvent.class, this::onEvent);
-        mainMediator.subscribe(TaskSelectedEvent.class, this::onEvent);
-        mainMediator.subscribe(TaskEditedEvent.class, this::onEvent);
+        mainMediator.subscribe(TaskAddedMessage.class, this::onEvent);
+        mainMediator.subscribe(TaskMarkedMessage.class, this::onEvent);
+        mainMediator.subscribe(TaskDeletedMessage.class, this::onEvent);
+        mainMediator.subscribe(TaskSelectedMessage.class, this::onEvent);
+        mainMediator.subscribe(TaskEditedMessage.class, this::onEvent);
         
         updateTasks();
     }
     
     public void updateTasks()
     {
-        mainMediator.publish(new TasksUpdatedEvent(taskSystem.getAllTasks()));
+        mainMediator.publish(new TasksUpdatedMessage(taskSystem.getAllTasks()));
     }
     
 
@@ -55,18 +55,18 @@ public class TaskController
         Task task = taskSystem.findById(id);
         if (task != null)
         {
-            mainMediator.publish(new TaskUpdatedEvent(task));
+            mainMediator.publish(new TaskUpdatedMessage(task));
         }
     }
         
 
-    private void onEvent(TaskAddedEvent event)
+    private void onEvent(TaskAddedMessage event)
     {
         taskSystem.addTask(event.title(), event.description(), event.dueDate());
         updateTasks();
     }
 
-    private void onEvent(TaskMarkedEvent event)
+    private void onEvent(TaskMarkedMessage event)
     {
         UUID id = event.id();
         if (event.newStatus() == TaskStatus.COMPLETED)
@@ -82,7 +82,7 @@ public class TaskController
         notifyTaskUpdate(id);
     }
     
-    private void onEvent(TaskDeletedEvent event)
+    private void onEvent(TaskDeletedMessage event)
     {
         UUID id = event.id();
         taskSystem.deleteTask(id);
@@ -91,11 +91,11 @@ public class TaskController
         if (id.equals(selectedTaskId))
         {
             selectedTaskId = null;
-            mainMediator.publish(new TaskDisplayedEvent(null));
+            mainMediator.publish(new TaskDisplayedMessage(null));
         }
     }
 
-    private void onEvent(TaskSelectedEvent event)
+    private void onEvent(TaskSelectedMessage event)
     {
         UUID id = event.id();
         this.selectedTaskId = id;
@@ -106,10 +106,10 @@ public class TaskController
             throw new IllegalArgumentException("Attempted to select non-existent task: " + id);
         }
 
-        mainMediator.publish(new TaskDisplayedEvent(task));
+        mainMediator.publish(new TaskDisplayedMessage(task));
     }
 
-    private void onEvent(TaskEditedEvent event)
+    private void onEvent(TaskEditedMessage event)
     {
         UUID id = event.id();
         taskSystem.updateTask(id, event.title(), event.description());

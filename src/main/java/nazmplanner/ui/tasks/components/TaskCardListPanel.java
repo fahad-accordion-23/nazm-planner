@@ -4,7 +4,7 @@ import java.awt.Color;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.ui.core.CardListPanel;
 import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.contracts.TasksUpdatedEvent;
+import nazmplanner.ui.tasks.message.TasksUpdatedMessage;
 
 /**
  * <h2>TaskCardListPanel</h2>
@@ -22,12 +22,12 @@ public class TaskCardListPanel extends CardListPanel
     public TaskCardListPanel(TasksMediator tasksMediator)
     {
         this.tasksMediator = tasksMediator;
-        tasksMediator.subscribe(TasksUpdatedEvent.class, this::onTaskUpdated);
+        tasksMediator.subscribe(TasksUpdatedMessage.class, this::onTaskUpdated);
         
         initStyling();
     }
     
-    public void onTaskUpdated(TasksUpdatedEvent event)
+    public void onTaskUpdated(TasksUpdatedMessage event)
     {
         clear();
         

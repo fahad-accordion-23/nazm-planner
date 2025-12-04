@@ -15,7 +15,7 @@ import javax.swing.SpinnerDateModel;
 
 import nazmplanner.ui.core.CardPanel;
 import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.contracts.TaskAddedEvent;
+import nazmplanner.ui.tasks.message.TaskAddedMessage;
 
 /**
  * <h2>CreationFormPanel</h2>
@@ -88,7 +88,7 @@ public class CreationFormPanel extends CardPanel
                 ZoneId.systemDefault()
             );
             
-            tasksMediator.publish(new TaskAddedEvent(title, "", dueDate));
+            tasksMediator.publish(new TaskAddedMessage(title, "", dueDate));
         });
     }
     

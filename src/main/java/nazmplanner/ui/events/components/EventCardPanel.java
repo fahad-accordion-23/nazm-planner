@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import nazmplanner.domain.events.CalendarEvent;
 import nazmplanner.ui.core.CardPanel;
 import nazmplanner.ui.events.EventsMediator;
-import nazmplanner.ui.events.contracts.*;
+import nazmplanner.ui.events.messages.*;
 
 public class EventCardPanel extends CardPanel
 {
@@ -31,7 +31,7 @@ public class EventCardPanel extends CardPanel
                 event.getStart().format(FMT) + " - " + event.getEnd().format(FMT) + "</html>");
         
         JButton deleteBtn = new JButton("X");
-        deleteBtn.addActionListener(e -> eventsMediator.publish(new CalendarEventDeletedEvent(event.getId())));
+        deleteBtn.addActionListener(e -> eventsMediator.publish(new CalendarEventDeletedMessage(event.getId())));
         
         add(titleLabel, BorderLayout.CENTER);
         add(deleteBtn, BorderLayout.EAST);

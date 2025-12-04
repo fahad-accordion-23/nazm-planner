@@ -13,11 +13,11 @@ import javax.swing.JTextField;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.contracts.TaskDeletedEvent;
-import nazmplanner.ui.tasks.contracts.TaskDisplayedEvent;
-import nazmplanner.ui.tasks.contracts.TaskEditedEvent;
-import nazmplanner.ui.tasks.contracts.TaskMarkedEvent;
-import nazmplanner.ui.tasks.contracts.TaskUpdatedEvent;
+import nazmplanner.ui.tasks.message.TaskDeletedMessage;
+import nazmplanner.ui.tasks.message.TaskDisplayedMessage;
+import nazmplanner.ui.tasks.message.TaskEditedMessage;
+import nazmplanner.ui.tasks.message.TaskMarkedMessage;
+import nazmplanner.ui.tasks.message.TaskUpdatedMessage;
 import nazmplanner.ui.util.GBC;
 
 /**
@@ -48,8 +48,8 @@ public class DetailPanel extends JPanel
     public DetailPanel(TasksMediator tasksMediator)
     {
         this.tasksMediator = tasksMediator;
-        tasksMediator.subscribe(TaskDisplayedEvent.class, this::onTaskDisplayed);
-        tasksMediator.subscribe(TaskUpdatedEvent.class, this::onTaskUpdated);
+        tasksMediator.subscribe(TaskDisplayedMessage.class, this::onTaskDisplayed);
+        tasksMediator.subscribe(TaskUpdatedMessage.class, this::onTaskUpdated);
         
         initComponents();
         initStyling();
@@ -157,7 +157,7 @@ public class DetailPanel extends JPanel
         {
             if (currentTask != null) 
             {
-                tasksMediator.publish(new TaskDeletedEvent(currentTask.getID()));
+                tasksMediator.publish(new TaskDeletedMessage(currentTask.getID()));
                 // We don't set null here manually, the controller will fire TaskDisplayedEvent(null)
             }
         });
@@ -170,7 +170,7 @@ public class DetailPanel extends JPanel
                                        ? TaskStatus.COMPLETED 
                                        : TaskStatus.TODO;
                                        
-                tasksMediator.publish(new TaskMarkedEvent(currentTask.getID(), newStatus));
+                tasksMediator.publish(new TaskMarkedMessage(currentTask.getID(), newStatus));
             }
         });
         
@@ -186,17 +186,17 @@ public class DetailPanel extends JPanel
                 String newTitle = titleField.getText();
                 String newDescription = descriptionArea.getText();
                 
-                tasksMediator.publish(new TaskEditedEvent(currentTask.getID(), newTitle, newDescription));
+                tasksMediator.publish(new TaskEditedMessage(currentTask.getID(), newTitle, newDescription));
             }
         });
     }
 
-    private void onTaskDisplayed(TaskDisplayedEvent event)
+    private void onTaskDisplayed(TaskDisplayedMessage event)
     {
         updateView(event.task());
     }
     
-    private void onTaskUpdated(TaskUpdatedEvent event)
+    private void onTaskUpdated(TaskUpdatedMessage event)
     {
         if (currentTask != null && event.task().getID().equals(currentTask.getID()))
         {

@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 import nazmplanner.ui.MainMediator;
-import nazmplanner.ui.contracts.ViewSwitchEvent;
+import nazmplanner.ui.contracts.ViewSwitchMessage;
 import nazmplanner.ui.events.EventsPanel;
 import nazmplanner.ui.tasks.TasksPanel;
 
@@ -18,7 +18,7 @@ public class ViewPanel extends JPanel
     public ViewPanel(MainMediator mainMediator)
     {
         this.mainMediator = mainMediator;
-        mainMediator.subscribe(ViewSwitchEvent.class, this::onViewSwitch);
+        mainMediator.subscribe(ViewSwitchMessage.class, this::onViewSwitch);
         
         initComponents();
         initLayout();
@@ -37,7 +37,7 @@ public class ViewPanel extends JPanel
         setLayout(new BorderLayout());
     }
     
-    public void onViewSwitch(ViewSwitchEvent event)
+    public void onViewSwitch(ViewSwitchMessage event)
     {
         switch(event.viewType())
         {

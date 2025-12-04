@@ -1,6 +1,6 @@
 package nazmplanner.ui.tasks;
 
-import nazmplanner.util.EventBroker;
+import nazmplanner.util.messaging.MessageBroker;
 
 /**
  * <h2>TasksMediator</h2>
@@ -10,7 +10,7 @@ import nazmplanner.util.EventBroker;
  * @author Fahad Hassan
  * @version 22/11/2025
  */
-public class TasksMediator extends EventBroker
+public class TasksMediator extends MessageBroker
 {
         
 }

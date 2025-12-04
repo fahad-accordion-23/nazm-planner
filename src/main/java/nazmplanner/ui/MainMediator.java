@@ -1,8 +1,8 @@
 package nazmplanner.ui;
 
-import nazmplanner.util.EventBroker;
+import nazmplanner.util.messaging.MessageBroker;
 
-public class MainMediator extends EventBroker
+public class MainMediator extends MessageBroker
 {
 
 }

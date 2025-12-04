@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import nazmplanner.ui.MainMediator;
-import nazmplanner.ui.contracts.ViewSwitchEvent;
+import nazmplanner.ui.contracts.ViewSwitchMessage;
 
 public class NavbarPanel extends JPanel
 {
@@ -39,7 +39,7 @@ public class NavbarPanel extends JPanel
     
     private void initEvents()
     {
-        tasksButton.addActionListener(e -> mainMediator.publish(new ViewSwitchEvent(ViewType.TASKS)));
-        eventsButton.addActionListener(e -> mainMediator.publish(new ViewSwitchEvent(ViewType.EVENTS)));
+        tasksButton.addActionListener(e -> mainMediator.publish(new ViewSwitchMessage(ViewType.TASKS)));
+        eventsButton.addActionListener(e -> mainMediator.publish(new ViewSwitchMessage(ViewType.EVENTS)));
     }
 }

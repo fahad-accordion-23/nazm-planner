@@ -12,8 +12,8 @@ import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.ui.core.CardPanel;
 import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.contracts.TaskMarkedEvent;
-import nazmplanner.ui.tasks.contracts.TaskSelectedEvent;
+import nazmplanner.ui.tasks.message.TaskMarkedMessage;
+import nazmplanner.ui.tasks.message.TaskSelectedMessage;
 
 /**
  * <h2>TaskCardPanel</h2>
@@ -86,7 +86,7 @@ public class TaskCardPanel extends CardPanel
                 newStatus = TaskStatus.TODO;
             }
             
-            tasksMediator.publish(new TaskMarkedEvent(task.getID(), newStatus));
+            tasksMediator.publish(new TaskMarkedMessage(task.getID(), newStatus));
         });
         
         super.addMouseListener(new MouseAdapter()
@@ -94,7 +94,7 @@ public class TaskCardPanel extends CardPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                tasksMediator.publish(new TaskSelectedEvent(task.getID()));
+                tasksMediator.publish(new TaskSelectedMessage(task.getID()));
             }
         });
     }
