@@ -12,7 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
-import nazmplanner.ui.components.CardPanel;
+
+import nazmplanner.ui.core.CardPanel;
 import nazmplanner.ui.tasks.TasksMediator;
 import nazmplanner.ui.tasks.contracts.TaskAddedEvent;
 

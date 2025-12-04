@@ -5,7 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import nazmplanner.ui.components.HeaderPanel;
+
+import nazmplanner.ui.core.HeaderPanel;
 import nazmplanner.ui.tasks.TasksMediator;
 import nazmplanner.ui.util.GBC;
 

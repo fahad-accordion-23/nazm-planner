@@ -10,7 +10,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
-import nazmplanner.ui.components.CardPanel;
+import nazmplanner.ui.core.CardPanel;
 import nazmplanner.ui.tasks.TasksMediator;
 import nazmplanner.ui.tasks.contracts.TaskMarkedEvent;
 import nazmplanner.ui.tasks.contracts.TaskSelectedEvent;

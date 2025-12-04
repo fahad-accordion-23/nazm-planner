@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import nazmplanner.domain.events.CalendarEvent;
-import nazmplanner.ui.components.CardPanel;
+import nazmplanner.ui.core.CardPanel;
 import nazmplanner.ui.events.EventsMediator;
 import nazmplanner.ui.events.contracts.*;
 

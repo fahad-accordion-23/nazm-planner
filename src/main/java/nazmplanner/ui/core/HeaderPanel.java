@@ -1,4 +1,4 @@
-package nazmplanner.ui.components;
+package nazmplanner.ui.core;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

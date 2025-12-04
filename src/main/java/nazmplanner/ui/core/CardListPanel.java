@@ -1,4 +1,4 @@
-package nazmplanner.ui.components;
+package nazmplanner.ui.core;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;

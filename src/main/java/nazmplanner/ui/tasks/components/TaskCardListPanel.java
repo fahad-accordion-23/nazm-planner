@@ -2,7 +2,7 @@ package nazmplanner.ui.tasks.components;
 
 import java.awt.Color;
 import nazmplanner.domain.tasks.Task;
-import nazmplanner.ui.components.CardListPanel;
+import nazmplanner.ui.core.CardListPanel;
 import nazmplanner.ui.tasks.TasksMediator;
 import nazmplanner.ui.tasks.contracts.TasksUpdatedEvent;
 
