@@ -1,10 +1,11 @@
-package nazmplanner.ui;
+package nazmplanner.ui.components;
 
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import nazmplanner.ui.MainMediator;
 import nazmplanner.ui.contracts.ViewSwitchEvent;
 
 public class NavbarPanel extends JPanel

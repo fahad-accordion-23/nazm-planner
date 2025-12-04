@@ -1,13 +1,12 @@
 package nazmplanner.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
+import nazmplanner.ui.components.NavbarPanel;
+import nazmplanner.ui.components.ViewPanel;
 import nazmplanner.ui.util.GBC;
 
 /**

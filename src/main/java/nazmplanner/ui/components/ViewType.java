@@ -1,4 +1,4 @@
-package nazmplanner.ui;
+package nazmplanner.ui.components;
 
 public enum ViewType 
 {

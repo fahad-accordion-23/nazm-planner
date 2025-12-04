@@ -1,9 +1,10 @@
-package nazmplanner.ui;
+package nazmplanner.ui.components;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
+import nazmplanner.ui.MainMediator;
 import nazmplanner.ui.contracts.ViewSwitchEvent;
 import nazmplanner.ui.events.EventsPanel;
 import nazmplanner.ui.tasks.TasksPanel;
