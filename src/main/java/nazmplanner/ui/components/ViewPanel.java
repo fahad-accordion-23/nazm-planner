@@ -10,12 +10,20 @@ import nazmplanner.ui.calendars.CalendarsPanel;
 import nazmplanner.ui.messages.ViewSwitchMessage;
 import nazmplanner.ui.tasks.TasksPanel;
 
+/**
+ * <h2>ViewPanel</h2>
+ * 
+ * <p>Contains all the views (tasksPanel, calendarsPanel)</p>
+ * 
+ * @author Fahad Hassan
+ * @version 04/12/2025
+ */
 public class ViewPanel extends JPanel
 {
     private final MainMessageBroker mainMessageBroker;
     private final TasksMessageBroker tasksMessageBroker;
     private TasksPanel tasksPanel;
-    private CalendarsPanel eventsPanel;
+    private CalendarsPanel calendarsPanel;
     
     public ViewPanel(MainMessageBroker mainMessageBroker, TasksMessageBroker tasksMessageBroker)
     {
@@ -32,7 +40,7 @@ public class ViewPanel extends JPanel
     private void initComponents()
     {
         tasksPanel = new TasksPanel(tasksMessageBroker);
-        eventsPanel = new CalendarsPanel();
+        calendarsPanel = new CalendarsPanel();
     }
     
     private void initLayout()
@@ -45,7 +53,7 @@ public class ViewPanel extends JPanel
         switch(event.viewType())
         {
         case ViewType.TASKS -> showPanel(tasksPanel);
-        case ViewType.EVENTS -> showPanel(eventsPanel);
+        case ViewType.EVENTS -> showPanel(calendarsPanel);
         }
     }
     

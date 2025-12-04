@@ -14,9 +14,9 @@ public class NavbarPanel extends JPanel
     private JButton tasksButton;
     private JButton eventsButton;
     
-    public NavbarPanel(MainMessageBroker mainMediator)
+    public NavbarPanel(MainMessageBroker mainMessageBroker)
     {
-        this.mainMediator = mainMediator;
+        this.mainMediator = mainMessageBroker;
         
         initComponents();
         initLayout();

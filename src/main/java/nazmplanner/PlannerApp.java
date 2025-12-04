@@ -13,7 +13,7 @@ import nazmplanner.ui.MainFrame;
  * <p>Entry point for the app.</p>
  * 
  * @author Fahad Hassan
- * @version 22/11/2025
+ * @version 04/11/2025
  */
 public class PlannerApp
 {
