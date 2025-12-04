@@ -10,14 +10,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import nazmplanner.application.tasks.TasksMessageBroker;
+import nazmplanner.application.tasks.messages.TaskDeletedMessage;
+import nazmplanner.application.tasks.messages.TaskDisplayedMessage;
+import nazmplanner.application.tasks.messages.TaskEditedMessage;
+import nazmplanner.application.tasks.messages.TaskMarkedMessage;
+import nazmplanner.application.tasks.messages.TaskUpdatedMessage;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
-import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.message.TaskDeletedMessage;
-import nazmplanner.ui.tasks.message.TaskDisplayedMessage;
-import nazmplanner.ui.tasks.message.TaskEditedMessage;
-import nazmplanner.ui.tasks.message.TaskMarkedMessage;
-import nazmplanner.ui.tasks.message.TaskUpdatedMessage;
 import nazmplanner.ui.util.GBC;
 
 /**
@@ -31,7 +32,7 @@ import nazmplanner.ui.util.GBC;
 public class DetailPanel extends JPanel
 {
     
-    private final TasksMediator tasksMediator;
+    private final TasksMessageBroker tasksMediator;
     private Task currentTask;
     
     private JTextField titleField;
@@ -45,7 +46,7 @@ public class DetailPanel extends JPanel
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
 
-    public DetailPanel(TasksMediator tasksMediator)
+    public DetailPanel(TasksMessageBroker tasksMediator)
     {
         this.tasksMediator = tasksMediator;
         tasksMediator.subscribe(TaskDisplayedMessage.class, this::onTaskDisplayed);

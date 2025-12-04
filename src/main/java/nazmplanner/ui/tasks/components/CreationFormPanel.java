@@ -13,9 +13,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
+import nazmplanner.application.tasks.TasksMessageBroker;
+import nazmplanner.application.tasks.messages.TaskAddedMessage;
 import nazmplanner.ui.core.CardPanel;
-import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.message.TaskAddedMessage;
 
 /**
  * <h2>CreationFormPanel</h2>
@@ -28,12 +28,12 @@ import nazmplanner.ui.tasks.message.TaskAddedMessage;
 public class CreationFormPanel extends CardPanel
 {
 
-    private TasksMediator tasksMediator;
+    private TasksMessageBroker tasksMediator;
     private JButton addButton;
     private JTextField titleField;
     private JSpinner dateSpinner;
     
-    public CreationFormPanel(TasksMediator tasksMediator)
+    public CreationFormPanel(TasksMessageBroker tasksMediator)
     {
         this.tasksMediator = tasksMediator;
         

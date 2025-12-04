@@ -4,17 +4,18 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 
-import nazmplanner.ui.MainMediator;
+import nazmplanner.application.tasks.TasksMessageBroker;
+import nazmplanner.application.tasks.messages.TaskAddedMessage;
+import nazmplanner.application.tasks.messages.TaskDeletedMessage;
+import nazmplanner.application.tasks.messages.TaskDisplayedMessage;
+import nazmplanner.application.tasks.messages.TaskEditedMessage;
+import nazmplanner.application.tasks.messages.TaskMarkedMessage;
+import nazmplanner.application.tasks.messages.TaskSelectedMessage;
+import nazmplanner.application.tasks.messages.TaskUpdatedMessage;
+import nazmplanner.application.tasks.messages.TasksUpdatedMessage;
+import nazmplanner.ui.MainMessageBroker;
 import nazmplanner.ui.tasks.components.PrimaryPanel;
 import nazmplanner.ui.tasks.components.SidebarPanel;
-import nazmplanner.ui.tasks.message.TaskAddedMessage;
-import nazmplanner.ui.tasks.message.TaskDeletedMessage;
-import nazmplanner.ui.tasks.message.TaskDisplayedMessage;
-import nazmplanner.ui.tasks.message.TaskEditedMessage;
-import nazmplanner.ui.tasks.message.TaskMarkedMessage;
-import nazmplanner.ui.tasks.message.TaskSelectedMessage;
-import nazmplanner.ui.tasks.message.TaskUpdatedMessage;
-import nazmplanner.ui.tasks.message.TasksUpdatedMessage;
 import nazmplanner.ui.util.GBC;
 import nazmplanner.util.messaging.Message;
 
@@ -30,14 +31,14 @@ import nazmplanner.util.messaging.Message;
  */
 public class TasksPanel extends JPanel
 {
-    private MainMediator mainMediator;
-    private TasksMediator tasksMediator;
+    private MainMessageBroker mainMediator;
+    private TasksMessageBroker tasksMediator;
     private PrimaryPanel primaryPanel;
     private SidebarPanel sidebarPanel;
     
-    public TasksPanel(MainMediator mainMediator)
+    public TasksPanel(MainMessageBroker mainMediator)
     {
-        this.tasksMediator = new TasksMediator();
+        this.tasksMediator = new TasksMessageBroker();
         this.mainMediator = mainMediator;
         
         mainMediator.subscribe(TasksUpdatedMessage.class, this::onEventForwardToTasksMediator);

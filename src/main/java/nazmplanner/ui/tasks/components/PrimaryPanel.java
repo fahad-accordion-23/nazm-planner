@@ -6,8 +6,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import nazmplanner.application.tasks.TasksMessageBroker;
 import nazmplanner.ui.core.HeaderPanel;
-import nazmplanner.ui.tasks.TasksMediator;
 import nazmplanner.ui.util.GBC;
 
 /**
@@ -22,14 +22,14 @@ import nazmplanner.ui.util.GBC;
 public class PrimaryPanel extends JPanel
 {
     
-    private TasksMediator tasksMediator;
+    private TasksMessageBroker tasksMediator;
     private HeaderPanel headerPanel;
     private TaskCardListPanel taskCardListPanel;
     private JScrollPane taskCardListScrollPane;
     private CreationFormPanel creationFormPanel;
     private DetailPanel detailPanel;    
     
-    public PrimaryPanel(TasksMediator tasksMediator)
+    public PrimaryPanel(TasksMessageBroker tasksMediator)
     {
         this.tasksMediator = tasksMediator;
 

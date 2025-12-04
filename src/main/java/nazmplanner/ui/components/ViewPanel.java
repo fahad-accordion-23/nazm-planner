@@ -4,18 +4,18 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import nazmplanner.ui.MainMediator;
-import nazmplanner.ui.contracts.ViewSwitchMessage;
-import nazmplanner.ui.events.EventsPanel;
+import nazmplanner.ui.MainMessageBroker;
+import nazmplanner.ui.calendars.CalendarsPanel;
+import nazmplanner.ui.messages.ViewSwitchMessage;
 import nazmplanner.ui.tasks.TasksPanel;
 
 public class ViewPanel extends JPanel
 {
-    private final MainMediator mainMediator;    
+    private final MainMessageBroker mainMediator;    
     private TasksPanel tasksPanel;
-    private EventsPanel eventsPanel;
+    private CalendarsPanel eventsPanel;
     
-    public ViewPanel(MainMediator mainMediator)
+    public ViewPanel(MainMessageBroker mainMediator)
     {
         this.mainMediator = mainMediator;
         mainMediator.subscribe(ViewSwitchMessage.class, this::onViewSwitch);
@@ -29,7 +29,7 @@ public class ViewPanel extends JPanel
     private void initComponents()
     {
         tasksPanel = new TasksPanel(mainMediator);
-        eventsPanel = new EventsPanel();
+        eventsPanel = new CalendarsPanel();
     }
     
     private void initLayout()

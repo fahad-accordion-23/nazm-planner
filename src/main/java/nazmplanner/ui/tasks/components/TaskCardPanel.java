@@ -8,12 +8,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+
+import nazmplanner.application.tasks.TasksMessageBroker;
+import nazmplanner.application.tasks.messages.TaskMarkedMessage;
+import nazmplanner.application.tasks.messages.TaskSelectedMessage;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.ui.core.CardPanel;
-import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.message.TaskMarkedMessage;
-import nazmplanner.ui.tasks.message.TaskSelectedMessage;
 
 /**
  * <h2>TaskCardPanel</h2>
@@ -26,7 +27,7 @@ import nazmplanner.ui.tasks.message.TaskSelectedMessage;
 public class TaskCardPanel extends CardPanel
 {
     
-    private final TasksMediator tasksMediator;
+    private final TasksMessageBroker tasksMediator;
     private final Task task;
     private JCheckBox statusBox;
     private JLabel titleLabel;
@@ -34,7 +35,7 @@ public class TaskCardPanel extends CardPanel
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
     
-    public TaskCardPanel(Task task, TasksMediator tasksMediator)
+    public TaskCardPanel(Task task, TasksMessageBroker tasksMediator)
     {
         this.tasksMediator = tasksMediator;
         this.task = task;

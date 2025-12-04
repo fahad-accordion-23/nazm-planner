@@ -23,13 +23,13 @@ public class MainFrame extends JFrame
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
     
-    private MainMediator mainMediator;
+    private MainMessageBroker mainMediator;
     private NavbarPanel navbarPanel;
     private ViewPanel viewPanel;
         
     public MainFrame()
     {                
-        mainMediator = new MainMediator();
+        mainMediator = new MainMessageBroker();
         
         initComponents();
         initLayout();
@@ -67,7 +67,7 @@ public class MainFrame extends JFrame
         super.setTitle("Nazm Planner");
     }
     
-    public MainMediator getMainMediator()
+    public MainMessageBroker getMainMediator()
     {
         return mainMediator;
     }

@@ -29,10 +29,10 @@ public class PlannerApp
             MainFrame mainFrame = new MainFrame();
             
             /* Domain */
-            TaskSystem taskSystem = new TaskSystem();
+            TasksSystem taskSystem = new TasksSystem();
             
             /* Application */
-            TaskController taskController = new TaskController(taskSystem, mainFrame.getMainMediator());
+            TasksController taskController = new TasksController(taskSystem, mainFrame.getMainMediator());
             
             mainFrame.setVisible(true);
         });

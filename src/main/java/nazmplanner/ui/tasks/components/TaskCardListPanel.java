@@ -1,10 +1,11 @@
 package nazmplanner.ui.tasks.components;
 
 import java.awt.Color;
+
+import nazmplanner.application.tasks.TasksMessageBroker;
+import nazmplanner.application.tasks.messages.TasksUpdatedMessage;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.ui.core.CardListPanel;
-import nazmplanner.ui.tasks.TasksMediator;
-import nazmplanner.ui.tasks.message.TasksUpdatedMessage;
 
 /**
  * <h2>TaskCardListPanel</h2>
@@ -17,9 +18,9 @@ import nazmplanner.ui.tasks.message.TasksUpdatedMessage;
 public class TaskCardListPanel extends CardListPanel
 {
    
-    private final TasksMediator tasksMediator;
+    private final TasksMessageBroker tasksMediator;
     
-    public TaskCardListPanel(TasksMediator tasksMediator)
+    public TaskCardListPanel(TasksMessageBroker tasksMediator)
     {
         this.tasksMediator = tasksMediator;
         tasksMediator.subscribe(TasksUpdatedMessage.class, this::onTaskUpdated);

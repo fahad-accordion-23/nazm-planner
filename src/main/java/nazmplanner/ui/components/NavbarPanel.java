@@ -5,16 +5,16 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import nazmplanner.ui.MainMediator;
-import nazmplanner.ui.contracts.ViewSwitchMessage;
+import nazmplanner.ui.MainMessageBroker;
+import nazmplanner.ui.messages.ViewSwitchMessage;
 
 public class NavbarPanel extends JPanel
 {
-    private final MainMediator mainMediator;
+    private final MainMessageBroker mainMediator;
     private JButton tasksButton;
     private JButton eventsButton;
     
-    public NavbarPanel(MainMediator mainMediator)
+    public NavbarPanel(MainMessageBroker mainMediator)
     {
         this.mainMediator = mainMediator;
         

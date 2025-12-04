@@ -2,7 +2,8 @@ package nazmplanner.ui.tasks.components;
 
 import java.awt.Color;
 import javax.swing.JPanel;
-import nazmplanner.ui.tasks.TasksMediator;
+
+import nazmplanner.application.tasks.TasksMessageBroker;
 
 /**
  * <h2>SidebarPanel</h2>
@@ -15,9 +16,9 @@ import nazmplanner.ui.tasks.TasksMediator;
 public class SidebarPanel extends JPanel
 {
     
-    private TasksMediator tasksMediator;
+    private TasksMessageBroker tasksMediator;
     
-    public SidebarPanel(TasksMediator tasksMediator)
+    public SidebarPanel(TasksMessageBroker tasksMediator)
     {
         this.tasksMediator = tasksMediator;
         initStyling();
