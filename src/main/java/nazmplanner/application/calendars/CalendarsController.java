@@ -1,9 +1,9 @@
 package nazmplanner.application.calendars;
 
-import nazmplanner.application.calendars.messages.CalendarEventAddedMessage;
-import nazmplanner.application.calendars.messages.CalendarEventDeletedMessage;
-import nazmplanner.application.calendars.messages.CalendarEventUpdatedMessage;
+import nazmplanner.application.calendars.messages.*;
 import nazmplanner.domain.calendars.CalendarsSystem;
+import nazmplanner.util.messaging.Message;
+import nazmplanner.util.messaging.MessageReceiver;
 
 /**
  * <h2>CalendarEventController</h2>
@@ -13,12 +13,12 @@ import nazmplanner.domain.calendars.CalendarsSystem;
 public class CalendarsController
 {
     private final CalendarsSystem eventSystem;
-    private final CalendarsMessageBroker eventsMediator;
+    private final CalendarsMessageBroker calendarsMessageBroker;
 
-    public CalendarsController(CalendarsSystem eventSystem, CalendarsMessageBroker eventsMediator)
+    public CalendarsController(CalendarsSystem eventSystem, CalendarsMessageBroker calendarsMessageBroker)
     {
         this.eventSystem = eventSystem;
-        this.eventsMediator = eventsMediator;
+        this.calendarsMessageBroker = calendarsMessageBroker;
         
         registerSubscribers();
         updateEvents();
@@ -26,26 +26,24 @@ public class CalendarsController
 
     private void registerSubscribers()
     {
-        eventsMediator.subscribe(CalendarEventAddedMessage.class, this::onEvent);
-        eventsMediator.subscribe(CalendarEventDeletedMessage.class, this::onEvent);
+        calendarsMessageBroker.subscribe(CalendarEventAddedMessage.class, this::onEvent);
+        calendarsMessageBroker.subscribe(CalendarEventDeletedMessage.class, this::onEvent);
     }
     
     public void updateEvents()
     {
-        eventsMediator.publish(new CalendarEventUpdatedMessage(eventSystem.getAllCalendarEvents()));
+        calendarsMessageBroker.publish(new CalendarEventUpdatedMessage(eventSystem.getAllCalendarEvents()));
     }
 
-    // --- Handlers ---
-
-    private void onEvent(CalendarEventAddedMessage event)
+    public void onEvent(CalendarEventAddedMessage message)
     {
-        eventSystem.addCalendarEvent(event.title(), event.description(), event.start(), event.end());
+        eventSystem.addCalendarEvent(message.title(), message.description(), message.start(), message.end());
         updateEvents();
     }
     
-    private void onEvent(CalendarEventDeletedMessage event)
+    public void onEvent(CalendarEventDeletedMessage message)
     {
-        eventSystem.deleteCalendarEvent(event.id());
+        eventSystem.deleteCalendarEvent(message.id());
         updateEvents();
     }
 }

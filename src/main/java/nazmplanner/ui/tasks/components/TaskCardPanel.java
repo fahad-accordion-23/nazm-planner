@@ -27,7 +27,7 @@ import nazmplanner.ui.core.CardPanel;
 public class TaskCardPanel extends CardPanel
 {
     
-    private final TasksMessageBroker tasksMediator;
+    private final TasksMessageBroker tasksMessageBroker;
     private final Task task;
     private JCheckBox statusBox;
     private JLabel titleLabel;
@@ -35,9 +35,9 @@ public class TaskCardPanel extends CardPanel
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
     
-    public TaskCardPanel(Task task, TasksMessageBroker tasksMediator)
+    public TaskCardPanel(Task task, TasksMessageBroker tasksMessageBroker)
     {
-        this.tasksMediator = tasksMediator;
+        this.tasksMessageBroker = tasksMessageBroker;
         this.task = task;
 
         initComponents();
@@ -87,7 +87,7 @@ public class TaskCardPanel extends CardPanel
                 newStatus = TaskStatus.TODO;
             }
             
-            tasksMediator.publish(new TaskMarkedMessage(task.getID(), newStatus));
+            tasksMessageBroker.publish(new TaskMarkedMessage(task.getID(), newStatus));
         });
         
         super.addMouseListener(new MouseAdapter()
@@ -95,7 +95,7 @@ public class TaskCardPanel extends CardPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                tasksMediator.publish(new TaskSelectedMessage(task.getID()));
+                tasksMessageBroker.publish(new TaskSelectedMessage(task.getID()));
             }
         });
     }

@@ -28,14 +28,14 @@ import nazmplanner.ui.core.CardPanel;
 public class CreationFormPanel extends CardPanel
 {
 
-    private TasksMessageBroker tasksMediator;
+    private TasksMessageBroker tasksMessageBroker;
     private JButton addButton;
     private JTextField titleField;
     private JSpinner dateSpinner;
     
     public CreationFormPanel(TasksMessageBroker tasksMediator)
     {
-        this.tasksMediator = tasksMediator;
+        this.tasksMessageBroker = tasksMediator;
         
         initComponents();
         initLayout();
@@ -88,7 +88,7 @@ public class CreationFormPanel extends CardPanel
                 ZoneId.systemDefault()
             );
             
-            tasksMediator.publish(new TaskAddedMessage(title, "", dueDate));
+            tasksMessageBroker.publish(new TaskAddedMessage(title, "", dueDate));
         });
     }
     

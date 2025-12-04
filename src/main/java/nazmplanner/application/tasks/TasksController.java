@@ -27,27 +27,25 @@ import nazmplanner.ui.MainMessageBroker;
 public class TasksController
 {
     
-    private final MainMessageBroker mainMediator;
+    private final TasksMessageBroker tasksMessageBroker;
     private final TasksSystem taskSystem;
     private UUID selectedTaskId;
     
-    public TasksController(TasksSystem taskSystem, MainMessageBroker mainMediator)
+    public TasksController(TasksSystem taskSystem, TasksMessageBroker tasksMessageBroker)
     {
         this.taskSystem = taskSystem;
-        this.mainMediator = mainMediator;
+        this.tasksMessageBroker = tasksMessageBroker;
         
-        mainMediator.subscribe(TaskAddedMessage.class, this::onEvent);
-        mainMediator.subscribe(TaskMarkedMessage.class, this::onEvent);
-        mainMediator.subscribe(TaskDeletedMessage.class, this::onEvent);
-        mainMediator.subscribe(TaskSelectedMessage.class, this::onEvent);
-        mainMediator.subscribe(TaskEditedMessage.class, this::onEvent);
-        
-        updateTasks();
+        tasksMessageBroker.subscribe(TaskAddedMessage.class, this::onEvent);
+        tasksMessageBroker.subscribe(TaskMarkedMessage.class, this::onEvent);
+        tasksMessageBroker.subscribe(TaskDeletedMessage.class, this::onEvent);
+        tasksMessageBroker.subscribe(TaskSelectedMessage.class, this::onEvent);
+        tasksMessageBroker.subscribe(TaskEditedMessage.class, this::onEvent);        
     }
     
     public void updateTasks()
     {
-        mainMediator.publish(new TasksUpdatedMessage(taskSystem.getAllTasks()));
+        tasksMessageBroker.publish(new TasksUpdatedMessage(taskSystem.getAllTasks()));
     }
     
 
@@ -56,7 +54,7 @@ public class TasksController
         Task task = taskSystem.findById(id);
         if (task != null)
         {
-            mainMediator.publish(new TaskUpdatedMessage(task));
+            tasksMessageBroker.publish(new TaskUpdatedMessage(task));
         }
     }
         
@@ -92,7 +90,7 @@ public class TasksController
         if (id.equals(selectedTaskId))
         {
             selectedTaskId = null;
-            mainMediator.publish(new TaskDisplayedMessage(null));
+            tasksMessageBroker.publish(new TaskDisplayedMessage(null));
         }
     }
 
@@ -107,7 +105,7 @@ public class TasksController
             throw new IllegalArgumentException("Attempted to select non-existent task: " + id);
         }
 
-        mainMediator.publish(new TaskDisplayedMessage(task));
+        tasksMessageBroker.publish(new TaskDisplayedMessage(task));
     }
 
     private void onEvent(TaskEditedMessage event)

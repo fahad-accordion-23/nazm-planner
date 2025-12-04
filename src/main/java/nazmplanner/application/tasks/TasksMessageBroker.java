@@ -1,5 +1,6 @@
 package nazmplanner.application.tasks;
 
+import nazmplanner.application.tasks.messages.TasksMessage;
 import nazmplanner.util.messaging.MessageBroker;
 
 /**
@@ -10,7 +11,7 @@ import nazmplanner.util.messaging.MessageBroker;
  * @author Fahad Hassan
  * @version 22/11/2025
  */
-public class TasksMessageBroker extends MessageBroker
+public class TasksMessageBroker extends MessageBroker<TasksMessage>
 {
         
 }

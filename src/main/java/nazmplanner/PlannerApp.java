@@ -24,15 +24,17 @@ public class PlannerApp
         {
         	/* Database */
         	DatabaseManager.initializeDatabase();
-        	
-            /* UI */
-            MainFrame mainFrame = new MainFrame();
-            
+        	            
             /* Domain */
             TasksSystem taskSystem = new TasksSystem();
             
             /* Application */
-            TasksController taskController = new TasksController(taskSystem, mainFrame.getMainMediator());
+            TasksMessageBroker tasksMessageBroker = new TasksMessageBroker();
+            TasksController taskController = new TasksController(taskSystem, tasksMessageBroker);
+            
+            /* UI */
+            MainFrame mainFrame = new MainFrame(tasksMessageBroker);
+            taskController.updateTasks();
             
             mainFrame.setVisible(true);
         });

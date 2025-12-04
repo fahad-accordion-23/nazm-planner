@@ -10,6 +10,7 @@ package nazmplanner.util.messaging;
  * @author Fahad Hassan
  * @version 24/11/2025
  */
+@FunctionalInterface
 public interface MessageReceiver<M extends Message>
 {
     void onEvent(M message);

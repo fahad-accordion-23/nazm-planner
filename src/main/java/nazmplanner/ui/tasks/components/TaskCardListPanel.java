@@ -18,12 +18,12 @@ import nazmplanner.ui.core.CardListPanel;
 public class TaskCardListPanel extends CardListPanel
 {
    
-    private final TasksMessageBroker tasksMediator;
+    private final TasksMessageBroker tasksMessageBroker;
     
-    public TaskCardListPanel(TasksMessageBroker tasksMediator)
+    public TaskCardListPanel(TasksMessageBroker tasksMessageBroker)
     {
-        this.tasksMediator = tasksMediator;
-        tasksMediator.subscribe(TasksUpdatedMessage.class, this::onTaskUpdated);
+        this.tasksMessageBroker = tasksMessageBroker;
+        this.tasksMessageBroker.subscribe(TasksUpdatedMessage.class, this::onTaskUpdated);
         
         initStyling();
     }
@@ -34,7 +34,7 @@ public class TaskCardListPanel extends CardListPanel
         
         for (Task task : event.tasks())
         {
-            addCard(new TaskCardPanel(task, tasksMediator));
+            addCard(new TaskCardPanel(task, tasksMessageBroker));
         }
     }
     

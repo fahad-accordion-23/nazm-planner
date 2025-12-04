@@ -32,7 +32,7 @@ import nazmplanner.ui.util.GBC;
 public class DetailPanel extends JPanel
 {
     
-    private final TasksMessageBroker tasksMediator;
+    private final TasksMessageBroker tasksMessageBroker;
     private Task currentTask;
     
     private JTextField titleField;
@@ -46,11 +46,11 @@ public class DetailPanel extends JPanel
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
 
-    public DetailPanel(TasksMessageBroker tasksMediator)
+    public DetailPanel(TasksMessageBroker tasksMessageBroker)
     {
-        this.tasksMediator = tasksMediator;
-        tasksMediator.subscribe(TaskDisplayedMessage.class, this::onTaskDisplayed);
-        tasksMediator.subscribe(TaskUpdatedMessage.class, this::onTaskUpdated);
+        this.tasksMessageBroker = tasksMessageBroker;
+        tasksMessageBroker.subscribe(TaskDisplayedMessage.class, this::onTaskDisplayed);
+        tasksMessageBroker.subscribe(TaskUpdatedMessage.class, this::onTaskUpdated);
         
         initComponents();
         initStyling();
@@ -158,8 +158,7 @@ public class DetailPanel extends JPanel
         {
             if (currentTask != null) 
             {
-                tasksMediator.publish(new TaskDeletedMessage(currentTask.getID()));
-                // We don't set null here manually, the controller will fire TaskDisplayedEvent(null)
+                tasksMessageBroker.publish(new TaskDeletedMessage(currentTask.getID()));
             }
         });
         
@@ -171,7 +170,7 @@ public class DetailPanel extends JPanel
                                        ? TaskStatus.COMPLETED 
                                        : TaskStatus.TODO;
                                        
-                tasksMediator.publish(new TaskMarkedMessage(currentTask.getID(), newStatus));
+                tasksMessageBroker.publish(new TaskMarkedMessage(currentTask.getID(), newStatus));
             }
         });
         
@@ -187,7 +186,7 @@ public class DetailPanel extends JPanel
                 String newTitle = titleField.getText();
                 String newDescription = descriptionArea.getText();
                 
-                tasksMediator.publish(new TaskEditedMessage(currentTask.getID(), newTitle, newDescription));
+                tasksMessageBroker.publish(new TaskEditedMessage(currentTask.getID(), newTitle, newDescription));
             }
         });
     }

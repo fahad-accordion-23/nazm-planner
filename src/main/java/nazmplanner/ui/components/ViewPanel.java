@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
+import nazmplanner.application.tasks.TasksMessageBroker;
 import nazmplanner.ui.MainMessageBroker;
 import nazmplanner.ui.calendars.CalendarsPanel;
 import nazmplanner.ui.messages.ViewSwitchMessage;
@@ -11,14 +12,16 @@ import nazmplanner.ui.tasks.TasksPanel;
 
 public class ViewPanel extends JPanel
 {
-    private final MainMessageBroker mainMediator;    
+    private final MainMessageBroker mainMessageBroker;
+    private final TasksMessageBroker tasksMessageBroker;
     private TasksPanel tasksPanel;
     private CalendarsPanel eventsPanel;
     
-    public ViewPanel(MainMessageBroker mainMediator)
+    public ViewPanel(MainMessageBroker mainMessageBroker, TasksMessageBroker tasksMessageBroker)
     {
-        this.mainMediator = mainMediator;
-        mainMediator.subscribe(ViewSwitchMessage.class, this::onViewSwitch);
+        this.mainMessageBroker = mainMessageBroker;
+        this.tasksMessageBroker = tasksMessageBroker;
+        this.mainMessageBroker.subscribe(ViewSwitchMessage.class, this::onEvent);
         
         initComponents();
         initLayout();
@@ -28,7 +31,7 @@ public class ViewPanel extends JPanel
     
     private void initComponents()
     {
-        tasksPanel = new TasksPanel(mainMediator);
+        tasksPanel = new TasksPanel(tasksMessageBroker);
         eventsPanel = new CalendarsPanel();
     }
     
@@ -36,8 +39,8 @@ public class ViewPanel extends JPanel
     {
         setLayout(new BorderLayout());
     }
-    
-    public void onViewSwitch(ViewSwitchMessage event)
+        
+    public void onEvent(ViewSwitchMessage event)
     {
         switch(event.viewType())
         {

@@ -16,24 +16,24 @@ import java.util.Objects;
  * @author Fahad Hassan
  * @version 04/12/2025
  */
-public abstract class MessageBroker
+public abstract class MessageBroker<T extends Message>
 {
-    private final Map<Class<? extends Message>, List<MessageReceiver<? extends Message>>>
+    private final Map<Class<? extends T>, List<MessageReceiver<? extends T>>>
         receivers = new HashMap<>();
     
-    public <M extends Message> void subscribe(Class<M> messageType, MessageReceiver<M> receiver)
+    public <M extends T> void subscribe(Class<M> messageType, MessageReceiver<M> receiver)
     {
         receivers.computeIfAbsent(messageType, f -> new ArrayList<>()).add(receiver);
     }
     
     @SuppressWarnings("unchecked")
-    public <M extends Message> void publish(M message)
+    public <M extends T> void publish(M message)
     {
-        List<MessageReceiver<? extends Message>> list = receivers.get(message.getClass());
+        List<MessageReceiver<? extends T>> list = receivers.get(message.getClass());
         
         if (!Objects.isNull(list))
         {
-            for (MessageReceiver<? extends Message> r : list)
+            for (MessageReceiver<? extends T> r : list)
             {
                 ((MessageReceiver<M>) r).onEvent(message);
             }

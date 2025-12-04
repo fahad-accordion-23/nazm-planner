@@ -22,16 +22,16 @@ import nazmplanner.ui.util.GBC;
 public class PrimaryPanel extends JPanel
 {
     
-    private TasksMessageBroker tasksMediator;
+    private TasksMessageBroker tasksMessageBroker;
     private HeaderPanel headerPanel;
     private TaskCardListPanel taskCardListPanel;
     private JScrollPane taskCardListScrollPane;
     private CreationFormPanel creationFormPanel;
     private DetailPanel detailPanel;    
     
-    public PrimaryPanel(TasksMessageBroker tasksMediator)
+    public PrimaryPanel(TasksMessageBroker tasksMessageBroker)
     {
-        this.tasksMediator = tasksMediator;
+        this.tasksMessageBroker = tasksMessageBroker;
 
         initComponents();
         initStyling();
@@ -41,10 +41,10 @@ public class PrimaryPanel extends JPanel
     private void initComponents()
     {
         headerPanel = new HeaderPanel("Tasks");
-        taskCardListPanel = new TaskCardListPanel(tasksMediator);
+        taskCardListPanel = new TaskCardListPanel(tasksMessageBroker);
         taskCardListScrollPane = new JScrollPane(taskCardListPanel);
-        creationFormPanel = new CreationFormPanel(tasksMediator);
-        detailPanel = new DetailPanel(tasksMediator);
+        creationFormPanel = new CreationFormPanel(tasksMessageBroker);
+        detailPanel = new DetailPanel(tasksMessageBroker);
     }
     
     private void initStyling()

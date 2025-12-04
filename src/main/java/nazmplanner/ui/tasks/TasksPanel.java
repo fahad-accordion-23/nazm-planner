@@ -12,6 +12,7 @@ import nazmplanner.application.tasks.messages.TaskEditedMessage;
 import nazmplanner.application.tasks.messages.TaskMarkedMessage;
 import nazmplanner.application.tasks.messages.TaskSelectedMessage;
 import nazmplanner.application.tasks.messages.TaskUpdatedMessage;
+import nazmplanner.application.tasks.messages.TasksMessage;
 import nazmplanner.application.tasks.messages.TasksUpdatedMessage;
 import nazmplanner.ui.MainMessageBroker;
 import nazmplanner.ui.tasks.components.PrimaryPanel;
@@ -31,44 +32,22 @@ import nazmplanner.util.messaging.Message;
  */
 public class TasksPanel extends JPanel
 {
-    private MainMessageBroker mainMediator;
-    private TasksMessageBroker tasksMediator;
+    private TasksMessageBroker tasksMessageBroker;
     private PrimaryPanel primaryPanel;
     private SidebarPanel sidebarPanel;
     
-    public TasksPanel(MainMessageBroker mainMediator)
+    public TasksPanel(TasksMessageBroker tasksMessageBroker)
     {
-        this.tasksMediator = new TasksMessageBroker();
-        this.mainMediator = mainMediator;
-        
-        mainMediator.subscribe(TasksUpdatedMessage.class, this::onEventForwardToTasksMediator);
-        mainMediator.subscribe(TaskUpdatedMessage.class, this::onEventForwardToTasksMediator);
-        mainMediator.subscribe(TaskDisplayedMessage.class, this::onEventForwardToTasksMediator);
-        
-        tasksMediator.subscribe(TaskEditedMessage.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskAddedMessage.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskDeletedMessage.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskMarkedMessage.class, this::onEventForwardToMainMediator);
-        tasksMediator.subscribe(TaskSelectedMessage.class, this::onEventForwardToMainMediator);
+        this.tasksMessageBroker = tasksMessageBroker;
         
         initComponents();
         initLayout();
     }
-    
-    public void onEventForwardToTasksMediator(Message event)
-    {
-        tasksMediator.publish(event);
-    }
-    
-    public void onEventForwardToMainMediator(Message event)
-    {
-        mainMediator.publish(event);
-    }
 
     private void initComponents()
     {
-        sidebarPanel = new SidebarPanel(tasksMediator);
-        primaryPanel = new PrimaryPanel(tasksMediator);
+        sidebarPanel = new SidebarPanel(tasksMessageBroker);
+        primaryPanel = new PrimaryPanel(tasksMessageBroker);
     }
     
     private void initLayout()

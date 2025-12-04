@@ -16,11 +16,11 @@ import nazmplanner.application.tasks.TasksMessageBroker;
 public class SidebarPanel extends JPanel
 {
     
-    private TasksMessageBroker tasksMediator;
+    private TasksMessageBroker tasksMessageBroker;
     
-    public SidebarPanel(TasksMessageBroker tasksMediator)
+    public SidebarPanel(TasksMessageBroker tasksMessageBroker)
     {
-        this.tasksMediator = tasksMediator;
+        this.tasksMessageBroker = tasksMessageBroker;
         initStyling();
     }
     
