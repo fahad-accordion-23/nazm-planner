@@ -2,6 +2,7 @@ package nazmplanner.ui.calendars;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
 
 import nazmplanner.application.calendars.CalendarsMessageBroker;
@@ -12,10 +13,10 @@ import nazmplanner.ui.util.GBC;
  * <h2>EventsPanel</h2>
  * 
  * <p>The primary view for all Calendar related things. Has a sidebar on 
- * the left and a primary view on the right (UC 09).</p>
+ * the left and a primary view on the right.</p>
  * 
  * @author Fahad Hassan
- * @version 23/11/2025
+ * @version 05/12/2025
  */
 public class CalendarsPanel extends JPanel
 {
@@ -33,8 +34,22 @@ public class CalendarsPanel extends JPanel
     
     private void initComponents()
     {
-        sidebarPanel = new SidebarPanel(calendarsMessageBroker);
         primaryPanel = new PrimaryPanel(calendarsMessageBroker);
+        
+        sidebarPanel = new SidebarPanel(calendarsMessageBroker, new SidebarPanel.MonthNavigationListener()
+        {
+            @Override
+            public void onPreviousMonth()
+            {
+                primaryPanel.navigateToPreviousMonth();
+            }
+            
+            @Override
+            public void onNextMonth()
+            {
+                primaryPanel.navigateToNextMonth();
+            }
+        });
     }
     
     private void initLayout()

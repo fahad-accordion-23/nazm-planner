@@ -3,17 +3,23 @@ package nazmplanner.ui.calendars.components;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.time.LocalDate;
+import java.time.Month;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import nazmplanner.application.calendars.CalendarsMessageBroker;
 import nazmplanner.ui.core.HeaderPanel;
-// nazmplanner.ui.tasks.TasksMediator removed as it was an unused import.
 import nazmplanner.ui.util.GBC;
 
 /**
  * <h2>EventsPrimaryPanel</h2>
- * * <p>Supposed to display the main calendar grid and event details.</p>
+ * 
+ * <p>Displays the main calendar grid with dynamic month/year header.</p>
+ * 
+ * @author Fahad Hassan
+ * @version 05/12/2025
  */
 public class PrimaryPanel extends JPanel
 {
@@ -23,9 +29,17 @@ public class PrimaryPanel extends JPanel
     private CalendarGridPanel calendarGridPanel;
     private JScrollPane calendarGridScrollPane;
     
+    private int currentYear;
+    private Month currentMonth;
+    
     public PrimaryPanel(CalendarsMessageBroker calendarsMessageBroker)
     {
         this.calendarsMessageBroker = calendarsMessageBroker;
+        
+        // Initialize to current date
+        LocalDate now = LocalDate.now();
+        this.currentYear = now.getYear();
+        this.currentMonth = now.getMonth();
         
         initComponents();
         initStyling();
@@ -34,10 +48,8 @@ public class PrimaryPanel extends JPanel
     
     private void initComponents()
     {
-        headerPanel = new HeaderPanel("November 2025 - Month View"); 
-        
-        calendarGridPanel = new CalendarGridPanel(calendarsMessageBroker);
-        
+        calendarGridPanel = new CalendarGridPanel(calendarsMessageBroker, currentYear, currentMonth);
+        headerPanel = new HeaderPanel(calendarGridPanel.getCurrentMonthYear());
         calendarGridScrollPane = new JScrollPane(calendarGridPanel);
     }
     
@@ -62,5 +74,41 @@ public class PrimaryPanel extends JPanel
                   .setWeight(1.00, 1.00)
                   .setAnchor(GridBagConstraints.NORTH)
                   .setFill(GridBagConstraints.BOTH));
+    }
+    
+    public void navigateToPreviousMonth()
+    {
+        if (currentMonth == Month.JANUARY)
+        {
+            currentMonth = Month.DECEMBER;
+            currentYear--;
+        }
+        else
+        {
+            currentMonth = currentMonth.minus(1);
+        }
+        
+        updateCalendar();
+    }
+    
+    public void navigateToNextMonth()
+    {
+        if (currentMonth == Month.DECEMBER)
+        {
+            currentMonth = Month.JANUARY;
+            currentYear++;
+        }
+        else
+        {
+            currentMonth = currentMonth.plus(1);
+        }
+        
+        updateCalendar();
+    }
+    
+    private void updateCalendar()
+    {
+        calendarGridPanel.setYearMonth(currentYear, currentMonth);
+        headerPanel.setText(calendarGridPanel.getCurrentMonthYear());
     }
 }

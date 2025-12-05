@@ -1,45 +1,41 @@
 package nazmplanner.ui.calendars.components;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.time.LocalDateTime;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import nazmplanner.application.calendars.CalendarsMessageBroker;
-import nazmplanner.application.calendars.messages.CalendarEventAddedMessage;
 import nazmplanner.ui.util.GBC;
 
 /**
  * <h2>EventsSidebarPanel</h2>
  *
- * <p>Supposed to display a list of calendar views or event lists.</p>
+ * <p>Sidebar with navigation controls for calendar.</p>
  * 
  * @author Fahad Hassan
- * @version 04/12/2025
+ * @version 05/12/2025
  */
 public class SidebarPanel extends JPanel
 {
     
     private final CalendarsMessageBroker calendarsMessageBroker;
+    private final MonthNavigationListener navigationListener;
     
     private JButton addEventButton;
     private JButton previousMonthButton;
     private JButton nextMonthButton;
-    private JPanel  buttonPanel;
+    private JPanel buttonPanel;
     
-    public SidebarPanel(CalendarsMessageBroker calendarsMessageBroker)
+    public SidebarPanel(CalendarsMessageBroker calendarsMessageBroker, MonthNavigationListener navigationListener)
     {
         this.calendarsMessageBroker = calendarsMessageBroker;
+        this.navigationListener = navigationListener;
         
         initComponents();
         initLayout();
@@ -49,10 +45,10 @@ public class SidebarPanel extends JPanel
     
     private void initComponents()
     {
-        addEventButton      =   new JButton("Add Event");
-        previousMonthButton =   new JButton("<");
-        nextMonthButton     =   new JButton(">");
-        buttonPanel         =   new JPanel();
+        addEventButton = new JButton("Add Event");
+        previousMonthButton = new JButton("<");
+        nextMonthButton = new JButton(">");
+        buttonPanel = new JPanel();
 
         buttonPanel.setLayout(new GridLayout(1, 2, 5, 5));
         buttonPanel.add(previousMonthButton);
@@ -77,7 +73,6 @@ public class SidebarPanel extends JPanel
                 .setWeight(1.0, 1.0));
     }
 
-    
     private void initStyling()
     {
         super.setBackground(Color.DARK_GRAY);
@@ -88,11 +83,34 @@ public class SidebarPanel extends JPanel
     {
         addEventButton.addActionListener(e -> 
         {
-            calendarsMessageBroker.publish(new CalendarEventAddedMessage(
-                    "title",
-                    "description",
-                    LocalDateTime.now(),
-                    LocalDateTime.now().plusHours(2)));
+            EventCreationDialog dialog = new EventCreationDialog(
+                (javax.swing.JFrame) SwingUtilities.getWindowAncestor(this), 
+                calendarsMessageBroker
+            );
+            dialog.setVisible(true);
         });
+        
+        previousMonthButton.addActionListener(e -> {
+            if (navigationListener != null)
+            {
+                navigationListener.onPreviousMonth();
+            }
+        });
+        
+        nextMonthButton.addActionListener(e -> {
+            if (navigationListener != null)
+            {
+                navigationListener.onNextMonth();
+            }
+        });
+    }
+    
+    /**
+     * Interface for handling month navigation events
+     */
+    public interface MonthNavigationListener
+    {
+        void onPreviousMonth();
+        void onNextMonth();
     }
 }
