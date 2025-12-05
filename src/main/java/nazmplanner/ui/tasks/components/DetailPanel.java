@@ -11,13 +11,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import nazmplanner.application.tasks.TaskDTO;
 import nazmplanner.application.tasks.TasksMessageBroker;
 import nazmplanner.application.tasks.messages.TaskDeletedMessage;
 import nazmplanner.application.tasks.messages.TaskDisplayedMessage;
 import nazmplanner.application.tasks.messages.TaskEditedMessage;
 import nazmplanner.application.tasks.messages.TaskMarkedMessage;
 import nazmplanner.application.tasks.messages.TaskUpdatedMessage;
-import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.ui.util.GBC;
 
@@ -33,7 +33,7 @@ public class DetailPanel extends JPanel
 {
     
     private final TasksMessageBroker tasksMessageBroker;
-    private Task currentTask;
+    private TaskDTO currentTask;
     
     private JTextField titleField;
     private JTextArea descriptionArea;
@@ -158,7 +158,7 @@ public class DetailPanel extends JPanel
         {
             if (currentTask != null) 
             {
-                tasksMessageBroker.publish(new TaskDeletedMessage(currentTask.getID()));
+                tasksMessageBroker.publish(new TaskDeletedMessage(currentTask.id()));
             }
         });
         
@@ -166,11 +166,11 @@ public class DetailPanel extends JPanel
         {
             if (currentTask != null)
             {
-                TaskStatus newStatus = (currentTask.getStatus() == TaskStatus.TODO) 
+                TaskStatus newStatus = (currentTask.status() == TaskStatus.TODO) 
                                        ? TaskStatus.COMPLETED 
                                        : TaskStatus.TODO;
                                        
-                tasksMessageBroker.publish(new TaskMarkedMessage(currentTask.getID(), newStatus));
+                tasksMessageBroker.publish(new TaskMarkedMessage(currentTask.id(), newStatus));
             }
         });
         
@@ -186,7 +186,10 @@ public class DetailPanel extends JPanel
                 String newTitle = titleField.getText();
                 String newDescription = descriptionArea.getText();
                 
-                tasksMessageBroker.publish(new TaskEditedMessage(currentTask.getID(), newTitle, newDescription));
+                tasksMessageBroker.publish(new TaskEditedMessage(
+                        currentTask.id(),
+                        newTitle,
+                        newDescription));
             }
         });
     }
@@ -198,13 +201,13 @@ public class DetailPanel extends JPanel
     
     private void onTaskUpdated(TaskUpdatedMessage event)
     {
-        if (currentTask != null && event.task().getID().equals(currentTask.getID()))
+        if (currentTask != null && event.task().id().equals(currentTask.id()))
         {
             updateView(event.task());
         }
     }
     
-    private void updateView(Task task)
+    private void updateView(TaskDTO task)
     {
         this.currentTask = task;
         
@@ -224,11 +227,11 @@ public class DetailPanel extends JPanel
         }
         else
         {
-            titleField.setText(currentTask.getTitle());
-            descriptionArea.setText(currentTask.getDescription());
+            titleField.setText(currentTask.title());
+            descriptionArea.setText(currentTask.description());
             
-            creationDateLabel.setText(currentTask.getCreationDate().format(DATE_FORMAT));
-            dueDateLabel.setText(currentTask.getDueDate().format(DATE_FORMAT));
+            creationDateLabel.setText(currentTask.creationDate().format(DATE_FORMAT));
+            dueDateLabel.setText(currentTask.dueDate().format(DATE_FORMAT));
             
             titleField.setEnabled(true);
             descriptionArea.setEnabled(true);
@@ -236,7 +239,7 @@ public class DetailPanel extends JPanel
             deleteButton.setEnabled(true);
             completeButton.setEnabled(true);
                         
-            if (currentTask.getStatus() == TaskStatus.TODO) 
+            if (currentTask.status() == TaskStatus.TODO) 
             {
                 completeButton.setText("Mark Task Complete");
                 completeButton.setBackground(Color.GREEN);

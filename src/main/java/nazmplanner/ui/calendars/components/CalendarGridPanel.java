@@ -18,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import nazmplanner.application.calendars.CalendarEventDTO;
 import nazmplanner.application.calendars.CalendarsMessageBroker;
 import nazmplanner.application.calendars.messages.CalendarEventUpdatedMessage;
-import nazmplanner.domain.calendars.CalendarEvent;
 import nazmplanner.ui.util.GBC;
 
 /**
@@ -34,7 +34,7 @@ import nazmplanner.ui.util.GBC;
 public class CalendarGridPanel extends JPanel
 {
     private final CalendarsMessageBroker calendarsMessageBroker;
-    private List<CalendarEvent> currentEvents;
+    private List<CalendarEventDTO> currentEvents;
     private List<CalendarCellPanel> cellPanels;
     
     private int currentYear;

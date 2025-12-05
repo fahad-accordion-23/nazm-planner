@@ -9,10 +9,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
+import nazmplanner.application.tasks.TaskDTO;
 import nazmplanner.application.tasks.TasksMessageBroker;
 import nazmplanner.application.tasks.messages.TaskMarkedMessage;
 import nazmplanner.application.tasks.messages.TaskSelectedMessage;
-import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.ui.core.CardPanel;
 
@@ -28,14 +28,15 @@ public class TaskCardPanel extends CardPanel
 {
     
     private final TasksMessageBroker tasksMessageBroker;
-    private final Task task;
+    private final TaskDTO task;
+    
     private JCheckBox statusBox;
     private JLabel titleLabel;
     private JLabel dueDateLabel;
     
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
     
-    public TaskCardPanel(Task task, TasksMessageBroker tasksMessageBroker)
+    public TaskCardPanel(TaskDTO task, TasksMessageBroker tasksMessageBroker)
     {
         this.tasksMessageBroker = tasksMessageBroker;
         this.task = task;
@@ -87,7 +88,7 @@ public class TaskCardPanel extends CardPanel
                 newStatus = TaskStatus.TODO;
             }
             
-            tasksMessageBroker.publish(new TaskMarkedMessage(task.getID(), newStatus));
+            tasksMessageBroker.publish(new TaskMarkedMessage(task.id(), newStatus));
         });
         
         super.addMouseListener(new MouseAdapter()
@@ -95,17 +96,17 @@ public class TaskCardPanel extends CardPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                tasksMessageBroker.publish(new TaskSelectedMessage(task.getID()));
+                tasksMessageBroker.publish(new TaskSelectedMessage(task.id()));
             }
         });
     }
     
     private void refresh()
     {
-        statusBox.setSelected(task.getStatus() == TaskStatus.COMPLETED);
-        titleLabel.setText(task.getTitle());
+        statusBox.setSelected(task.status() == TaskStatus.COMPLETED);
+        titleLabel.setText(task.title());
         
-        String date = task.getDueDate().format(DATE_FORMAT);
+        String date = task.dueDate().format(DATE_FORMAT);
         dueDateLabel.setText(date);
         
         repaint();

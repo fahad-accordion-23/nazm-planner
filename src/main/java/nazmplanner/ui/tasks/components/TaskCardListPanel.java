@@ -2,9 +2,9 @@ package nazmplanner.ui.tasks.components;
 
 import java.awt.Color;
 
+import nazmplanner.application.tasks.TaskDTO;
 import nazmplanner.application.tasks.TasksMessageBroker;
 import nazmplanner.application.tasks.messages.TasksUpdatedMessage;
-import nazmplanner.domain.tasks.Task;
 import nazmplanner.ui.core.CardListPanel;
 
 /**
@@ -28,11 +28,11 @@ public class TaskCardListPanel extends CardListPanel
         initStyling();
     }
     
-    public void onTaskUpdated(TasksUpdatedMessage event)
+    public void onTaskUpdated(TasksUpdatedMessage event) 
     {
         clear();
         
-        for (Task task : event.tasks())
+        for (TaskDTO task : event.tasks())
         {
             addCard(new TaskCardPanel(task, tasksMessageBroker));
         }

@@ -13,7 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nazmplanner.domain.calendars.CalendarEvent;
+import nazmplanner.application.calendars.CalendarEventDTO;
 
 /**
  * <h2>CalendarCellPanel</h2>
@@ -75,16 +75,16 @@ public class CalendarCellPanel extends JPanel
         setBackground(isToday ? new Color(240, 248, 255) : Color.WHITE);
     }
     
-    public void updateEvents(List<CalendarEvent> events)
+    public void updateEvents(List<CalendarEventDTO> events)
     {
         eventsContainer.removeAll();
         
-        List<CalendarEvent> daysEvents = events.stream()
+        List<CalendarEventDTO> daysEvents = events.stream()
                 .filter(e -> isEventOnDate(e, cellDate))
                 .collect(Collectors.toList());
         
         int eventCount = 0;
-        for (CalendarEvent event : daysEvents)
+        for (CalendarEventDTO event : daysEvents)
         {
             if (eventCount >= MAX_VISIBLE_EVENTS)
             {
@@ -108,9 +108,9 @@ public class CalendarCellPanel extends JPanel
         repaint();
     }
     
-    private JLabel createEventPill(CalendarEvent event)
+    private JLabel createEventPill(CalendarEventDTO event)
     {
-        JLabel eventPill = new JLabel(event.getTitle());
+        JLabel eventPill = new JLabel(event.title());
         eventPill.setOpaque(true);
         eventPill.setBackground(new Color(173, 216, 230));
         eventPill.setFont(new Font("SansSerif", Font.PLAIN, 10));
@@ -119,10 +119,10 @@ public class CalendarCellPanel extends JPanel
         return eventPill;
     }
     
-    private boolean isEventOnDate(CalendarEvent event, LocalDate date)
+    private boolean isEventOnDate(CalendarEventDTO event, LocalDate date)
     {
-        LocalDate eventStart = event.getStart().toLocalDate();
-        LocalDate eventEnd = event.getEnd().toLocalDate();
+        LocalDate eventStart = event.start().toLocalDate();
+        LocalDate eventEnd = event.end().toLocalDate();
         
         return (date.isEqual(eventStart) || date.isEqual(eventEnd)) || 
                (date.isAfter(eventStart) && date.isBefore(eventEnd));

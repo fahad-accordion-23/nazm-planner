@@ -1,6 +1,5 @@
 package nazmplanner.application.tasks.messages;
 
-import nazmplanner.domain.tasks.Task;
-import nazmplanner.util.messaging.Message;
+import nazmplanner.application.tasks.TaskDTO;
 
-public record TaskUpdatedMessage(Task task) implements TasksMessage {}
+public record TaskUpdatedMessage(TaskDTO task) implements TasksMessage {}

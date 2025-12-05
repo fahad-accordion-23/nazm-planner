@@ -2,6 +2,6 @@ package nazmplanner.application.calendars.messages;
 
 import java.util.List;
 
-import nazmplanner.domain.calendars.CalendarEvent;
+import nazmplanner.application.calendars.CalendarEventDTO;
 
-public record CalendarEventUpdatedMessage(List<CalendarEvent> events) implements CalendarsMessage {}
+public record CalendarEventUpdatedMessage(List<CalendarEventDTO> events) implements CalendarsMessage {}
