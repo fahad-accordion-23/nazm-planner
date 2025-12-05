@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 
+import nazmplanner.application.calendars.CalendarsMessageBroker;
 import nazmplanner.ui.calendars.components.*;
 import nazmplanner.ui.util.GBC;
 
@@ -18,19 +19,22 @@ import nazmplanner.ui.util.GBC;
  */
 public class CalendarsPanel extends JPanel
 {
+    private final CalendarsMessageBroker calendarsMessageBroker;
     private PrimaryPanel primaryPanel;
     private SidebarPanel sidebarPanel;
     
-    public CalendarsPanel()
+    public CalendarsPanel(CalendarsMessageBroker calendarsMessageBroker)
     {
+        this.calendarsMessageBroker = calendarsMessageBroker;
+        
         initComponents();
         initLayout();
     }
     
     private void initComponents()
     {
-        sidebarPanel = new SidebarPanel();
-        primaryPanel = new PrimaryPanel();
+        sidebarPanel = new SidebarPanel(calendarsMessageBroker);
+        primaryPanel = new PrimaryPanel(calendarsMessageBroker);
     }
     
     private void initLayout()
@@ -39,13 +43,13 @@ public class CalendarsPanel extends JPanel
         
         super.add(sidebarPanel, 
                   new GBC(0, 0, 1, 1)
-                  .setAnchor(GridBagConstraints.SOUTH)
+                  .setAnchor(GridBagConstraints.WEST)
                   .setWeight(0.20, 1.00)
                   .setFill(GridBagConstraints.BOTH));
         
         super.add(primaryPanel, 
                   new GBC(1, 0, 1, 1)
-                  .setAnchor(GridBagConstraints.NORTH)
+                  .setAnchor(GridBagConstraints.EAST)
                   .setWeight(0.80, 1.00)
                   .setFill(GridBagConstraints.BOTH));
     }

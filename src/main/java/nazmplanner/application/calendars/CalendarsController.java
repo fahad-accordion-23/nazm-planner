@@ -12,12 +12,12 @@ import nazmplanner.util.messaging.MessageReceiver;
  */
 public class CalendarsController
 {
-    private final CalendarsSystem eventSystem;
+    private final CalendarsSystem calendarsSystem;
     private final CalendarsMessageBroker calendarsMessageBroker;
 
-    public CalendarsController(CalendarsSystem eventSystem, CalendarsMessageBroker calendarsMessageBroker)
+    public CalendarsController(CalendarsSystem calendarsSystem, CalendarsMessageBroker calendarsMessageBroker)
     {
-        this.eventSystem = eventSystem;
+        this.calendarsSystem = calendarsSystem;
         this.calendarsMessageBroker = calendarsMessageBroker;
         
         registerSubscribers();
@@ -32,18 +32,18 @@ public class CalendarsController
     
     public void updateEvents()
     {
-        calendarsMessageBroker.publish(new CalendarEventUpdatedMessage(eventSystem.getAllCalendarEvents()));
+        calendarsMessageBroker.publish(new CalendarEventUpdatedMessage(calendarsSystem.getAllCalendarEvents()));
     }
 
     public void onEvent(CalendarEventAddedMessage message)
     {
-        eventSystem.addCalendarEvent(message.title(), message.description(), message.start(), message.end());
+        calendarsSystem.addCalendarEvent(message.title(), message.description(), message.start(), message.end());
         updateEvents();
     }
     
     public void onEvent(CalendarEventDeletedMessage message)
     {
-        eventSystem.deleteCalendarEvent(message.id());
+        calendarsSystem.deleteCalendarEvent(message.id());
         updateEvents();
     }
 }

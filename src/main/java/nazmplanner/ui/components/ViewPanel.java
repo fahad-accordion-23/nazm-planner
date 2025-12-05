@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
+import nazmplanner.application.calendars.CalendarsMessageBroker;
 import nazmplanner.application.tasks.TasksMessageBroker;
 import nazmplanner.ui.MainMessageBroker;
 import nazmplanner.ui.calendars.CalendarsPanel;
@@ -22,13 +23,17 @@ public class ViewPanel extends JPanel
 {
     private final MainMessageBroker mainMessageBroker;
     private final TasksMessageBroker tasksMessageBroker;
+    private final CalendarsMessageBroker calendarsMessageBroker;
     private TasksPanel tasksPanel;
     private CalendarsPanel calendarsPanel;
     
-    public ViewPanel(MainMessageBroker mainMessageBroker, TasksMessageBroker tasksMessageBroker)
+    public ViewPanel(MainMessageBroker mainMessageBroker, TasksMessageBroker tasksMessageBroker, 
+            CalendarsMessageBroker calendarsMessageBroker)
     {
         this.mainMessageBroker = mainMessageBroker;
         this.tasksMessageBroker = tasksMessageBroker;
+        this.calendarsMessageBroker = calendarsMessageBroker;
+        
         this.mainMessageBroker.subscribe(ViewSwitchMessage.class, this::onEvent);
         
         initComponents();
@@ -40,7 +45,7 @@ public class ViewPanel extends JPanel
     private void initComponents()
     {
         tasksPanel = new TasksPanel(tasksMessageBroker);
-        calendarsPanel = new CalendarsPanel();
+        calendarsPanel = new CalendarsPanel(calendarsMessageBroker);
     }
     
     private void initLayout()

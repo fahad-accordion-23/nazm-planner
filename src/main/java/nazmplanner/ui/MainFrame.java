@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 
+import nazmplanner.application.calendars.CalendarsMessageBroker;
 import nazmplanner.application.tasks.TasksMessageBroker;
 import nazmplanner.ui.components.NavbarPanel;
 import nazmplanner.ui.components.ViewPanel;
@@ -25,14 +26,16 @@ public class MainFrame extends JFrame
     private static final int DEFAULT_HEIGHT = 600;
     
     private TasksMessageBroker tasksMessageBroker;
+    private CalendarsMessageBroker calendarsMessageBroker;
     private MainMessageBroker mainMediator;
     private NavbarPanel navbarPanel;
     private ViewPanel viewPanel;
         
-    public MainFrame(TasksMessageBroker tasksMessageBroker)
+    public MainFrame(TasksMessageBroker tasksMessageBroker, CalendarsMessageBroker calendarsMessageBroker)
     {                
         mainMediator = new MainMessageBroker();
         this.tasksMessageBroker = tasksMessageBroker;
+        this.calendarsMessageBroker = calendarsMessageBroker;
         
         initComponents();
         initLayout();
@@ -42,7 +45,7 @@ public class MainFrame extends JFrame
     private void initComponents()
     {
         navbarPanel = new NavbarPanel(mainMediator);
-        viewPanel = new ViewPanel(mainMediator, tasksMessageBroker);
+        viewPanel = new ViewPanel(mainMediator, tasksMessageBroker, calendarsMessageBroker);
     }
     
     private void initLayout()
