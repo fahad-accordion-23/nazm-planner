@@ -16,7 +16,6 @@ import nazmplanner.application.tasks.messages.TasksUpdatedMessage;
 import nazmplanner.domain.tasks.Task;
 import nazmplanner.domain.tasks.TaskStatus;
 import nazmplanner.domain.tasks.TasksSystem;
-import nazmplanner.ui.MainMessageBroker;
 
 /**
  * <h2>TaskController</h2>
